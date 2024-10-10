@@ -3,8 +3,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_18
-    targetCompatibility = JavaVersion.VERSION_18
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -13,5 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.NoahBres:MeepMeep:2.0.3'
+    //implementation 'com.github.NoahBres:MeepMeep:2.0.3'
+    //implementation 'com.github.rh-robotics:MeepMeep:v1.0.0'
+    implementation 'com.acmerobotics.roadrunner:MeepMeep:0.1.6'
 }
