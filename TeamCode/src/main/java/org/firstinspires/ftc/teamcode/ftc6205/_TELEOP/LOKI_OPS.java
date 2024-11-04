@@ -19,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -28,8 +29,9 @@ import org.openftc.easyopencv.OpenCvCamera;
 import java.util.ArrayList;
 
 @TeleOp(name = "*: LOKI", group = "6205")
-public class LOKI_DEV extends LinearOpMode {
+public class LOKI_OPS extends LinearOpMode {
     //////////////////////////////////////////////////////////// DRIVETRAIN
+    Drivetrain drivetrain;
     DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
 
     /////////////////////////////////////////////////////////// APPENDAGES
@@ -64,6 +66,10 @@ public class LOKI_DEV extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        // Drivetrain
+        drivetrain = new Drivetrain();
+        drivetrain.init(hardwareMap);
+
         // FtcDashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
@@ -130,7 +136,7 @@ public class LOKI_DEV extends LinearOpMode {
 //            }
 
             // RUN
-            runEncoders();      //encoders
+            //runEncoders();      //encoders
             runDrive();         //drivetrain
             //sendTelemetry();    //telemetry
         }
@@ -144,10 +150,10 @@ public class LOKI_DEV extends LinearOpMode {
         initIMU();
         initDistSensors();
         //initTouchSensors();
-        initEncoders();
+        //initEncoders();
 
         // MOTORS
-        initMotors();
+        //initMotors();
         initPixelArm();
         initLiftArm();
         initLiftWrist();
@@ -158,48 +164,48 @@ public class LOKI_DEV extends LinearOpMode {
         initVision();
         //initCV();
     }
-    private void initEncoders() throws InterruptedException {
-        // Encoders
-        encoderLeft = hardwareMap.dcMotor.get("frontleft");
-        encoderBack = hardwareMap.dcMotor.get("backleft");
-        encoderRight = hardwareMap.dcMotor.get("frontright");
-        encoderLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        encoderBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        encoderBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        encoderRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-    private void runEncoders() throws InterruptedException {
-        // Get current encoder position
-        encLeftValue = encoderLeft.getCurrentPosition();
-        encBackValue = encoderBack.getCurrentPosition();
-        encRightValue = encoderRight.getCurrentPosition();
-    }
+//    private void initEncoders() throws InterruptedException {
+//        // Encoders
+//        encoderLeft = hardwareMap.dcMotor.get("frontleft");
+//        encoderBack = hardwareMap.dcMotor.get("backleft");
+//        encoderRight = hardwareMap.dcMotor.get("frontright");
+//        encoderLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+//        encoderLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        encoderBack.setDirection(DcMotorSimple.Direction.FORWARD);
+//        encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        encoderBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        encoderRight.setDirection(DcMotorSimple.Direction.REVERSE);
+//        encoderRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//    }
+//    private void runEncoders() throws InterruptedException {
+//        // Get current encoder position
+//        encLeftValue = encoderLeft.getCurrentPosition();
+//        encBackValue = encoderBack.getCurrentPosition();
+//        encRightValue = encoderRight.getCurrentPosition();
+//    }
 
     //TODO ////////////////////////////////////////////////////////////////////////////////////////
-    private void initMotors() throws InterruptedException {
-        frontLeftMotor = hardwareMap.dcMotor.get("frontleft");
-        backLeftMotor = hardwareMap.dcMotor.get("backleft");
-        frontRightMotor = hardwareMap.dcMotor.get("frontright");
-        backRightMotor = hardwareMap.dcMotor.get("backright");
-        // Reverse the right side motors.
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        // Set to brake mode
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        // Run without encoder
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
+//    private void initMotors() throws InterruptedException {
+//        frontLeftMotor = hardwareMap.dcMotor.get("frontleft");
+//        backLeftMotor = hardwareMap.dcMotor.get("backleft");
+//        frontRightMotor = hardwareMap.dcMotor.get("frontright");
+//        backRightMotor = hardwareMap.dcMotor.get("backright");
+//        // Reverse the right side motors.
+//        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        // Set to brake mode
+//        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        // Run without encoder
+//        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//    }
     private void runDrive() throws InterruptedException {
         // DRIVETRAIN
         // Get yaw, reset in match optional
@@ -259,10 +265,17 @@ public class LOKI_DEV extends LinearOpMode {
         backRightPower = backRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
 
         // Set motor power
-        frontLeftMotor.setPower(frontLeftPower);
-        backLeftMotor.setPower(backLeftPower);
-        frontRightMotor.setPower(frontRightPower);
-        backRightMotor.setPower(backRightPower);
+        drivetrain.topLeftDriveMotor.setPower(frontLeftPower);
+        drivetrain.bottomLeftDriveMotor.setPower(backLeftPower);
+        drivetrain.topRightDriveMotor.setPower(frontRightPower);
+        drivetrain.bottomRightDriveMotor.setPower(backRightPower);
+
+        frontLeftMotor = drivetrain.topLeftDriveMotor;
+
+        //frontLeftMotor.setPower(frontLeftPower);
+//        backLeftMotor.setPower(backLeftPower);
+//        frontRightMotor.setPower(frontRightPower);
+//        backRightMotor.setPower(backRightPower);
     }
 
     private void initPixelArm() throws InterruptedException {
@@ -327,7 +340,6 @@ public class LOKI_DEV extends LinearOpMode {
                 .setCameraResolution(new Size(1920, 1080))
                 .build();
     }
-
 
     private void sendTelemetry() throws InterruptedException {
         String tag1_x = "";

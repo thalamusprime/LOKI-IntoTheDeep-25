@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.ftc6205.opencv;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name = "TEST - Cube Vision", group = "TEST")
-
+@Disabled
 public class CubeVision extends LinearOpMode {
     HardwareMap hMap;
 

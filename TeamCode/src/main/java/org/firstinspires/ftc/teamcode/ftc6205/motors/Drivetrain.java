@@ -13,49 +13,36 @@ public class Drivetrain {
 
     public void init(HardwareMap ahwMap) {
 
-        /**
-         * Assigns the parent hardware map to local ArtemisHardwareMap class variable
-         * **/
         hwMap = ahwMap;
 
-        /**
-         * Hardware initialized and String Names are in the Configuration File for Hardware Map
-         * **/
-
         // Control HUb
-        topLeftDriveMotor = hwMap.get(DcMotor.class, "Top-Left-Motor");
-        bottomLeftDriveMotor = hwMap.get(DcMotor.class, "Bottom-Left-Motor");
-        topRightDriveMotor = hwMap.get(DcMotor.class, "Top-Right-Motor");
-        bottomRightDriveMotor = hwMap.get(DcMotor.class, "Bottom-Right-Motor");
+        topLeftDriveMotor = hwMap.dcMotor.get("frontleft");
+        bottomLeftDriveMotor = hwMap.dcMotor.get("backleft");
+        topRightDriveMotor = hwMap.dcMotor.get("frontright");
+        bottomRightDriveMotor = hwMap.dcMotor.get("backright");
 
-
-        /**
-         * Allow the 4 wheel motors to be run without encoders since we are doing a time based autonomous
-         * **/
-        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        /**
-         *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
-         * **/
+        //todo: research why front two motors do not work with this method call
+        //topLeftDriveMotor = hwMap.get(DcMotor.class, "frontleft");
+        //bottomLeftDriveMotor = hwMap.get(DcMotor.class, "backleft");
+        //topRightDriveMotor = hwMap.get(DcMotor.class, "frontright");
+        //bottomRightDriveMotor = hwMap.get(DcMotor.class, "backright");
 
         //THIS IS THE CORRECT ORIENTATION
-        topLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
-        bottomLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
-        topRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
-        bottomRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
-        /**
-         * Reverses shooter motor to shoot the correct way and same with the conveyor motor
-         * **/
+        //topLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        //bottomLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        topRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        bottomRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        /**
-         * We are setting the motor 0 mode power to be brake as it actively stops the robot and doesn't rely on the surface to slow down once the robot power is set to 0
-         * **/
+        //
         topLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bottomLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         topRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bottomRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

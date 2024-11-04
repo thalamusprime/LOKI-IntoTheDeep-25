@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.ftc6205.pidcontrol;
+package org.firstinspires.ftc.teamcode.ftc6205.test;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @TeleOp(name = "TEST - IMU Orthogonal", group = "TEST")
-//@Disabled   // Comment this out to add to the OpMode list
+@Disabled   // Comment this out to add to the OpMode list
 public class IMU_Test extends LinearOpMode {
     // The IMU sensor object
     IMU imu;
