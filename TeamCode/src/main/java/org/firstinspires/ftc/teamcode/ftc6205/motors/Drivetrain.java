@@ -12,7 +12,6 @@ public class Drivetrain {
     HardwareMap hwMap;
 
     public void init(HardwareMap ahwMap) {
-
         hwMap = ahwMap;
 
         // Control HUb
