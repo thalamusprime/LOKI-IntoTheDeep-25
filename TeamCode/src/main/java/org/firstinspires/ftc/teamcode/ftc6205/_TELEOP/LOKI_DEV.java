@@ -132,7 +132,7 @@ public class LOKI_DEV extends LinearOpMode {
             // RUN
             runEncoders();      //encoders
             runDrive();         //drivetrain
-            sendTelemetry();    //telemetry
+            //sendTelemetry();    //telemetry
         }
     }
 
@@ -377,11 +377,11 @@ public class LOKI_DEV extends LinearOpMode {
                 pixelThumb.getPosition()
         ));
 
-        telemetry.addLine(String.format(
-                "PIXEL ARM |  %5d : %5d"
+//        telemetry.addLine(String.format(
+//                "PIXEL ARM |  %5d : %5d"
 //                pixelArm.getTargetPosition(),
 //                pixelArm.getCurrentPosition()
-        ));
+//        ));
 
         telemetry.addLine(String.format(
                 "LIFT ARM |  %5d : %5d"
