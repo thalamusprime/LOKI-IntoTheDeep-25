@@ -13,11 +13,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
@@ -33,6 +35,7 @@ public class LOKI_OPS extends LinearOpMode {
     //////////////////////////////////////////////////////////// DRIVETRAIN
     Drivetrain drivetrain;
     Encoders encoders;
+    DSTelemetry dsTelemetry;
 
     /////////////////////////////////////////////////////////// APPENDAGES
     // MOTORS
@@ -81,6 +84,9 @@ public class LOKI_OPS extends LinearOpMode {
 
         // Other sensors/motors
         initDevices();
+
+        // DSTelemetry
+        dsTelemetry = new DSTelemetry();
 
         // Pause until "Play".  Close program if "Stop".
         waitForStart();
@@ -143,7 +149,7 @@ public class LOKI_OPS extends LinearOpMode {
             // RUN
             runEncoders();      //encoders
             runDrive();         //drivetrain
-            //sendTelemetry();    //telemetry
+            dsTelemetry.sendTelemetry(telemetry, encLeftValue, encBackValue, encRightValue);    //telemetry
         }
     }
 
