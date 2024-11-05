@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205._TELEOP;
+package org.firstinspires.ftc.teamcode.ftc6205._teleop;
 
 import android.util.Size;
 
@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -21,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -32,7 +32,8 @@ import java.util.ArrayList;
 public class LOKI_OPS extends LinearOpMode {
     //////////////////////////////////////////////////////////// DRIVETRAIN
     Drivetrain drivetrain;
-    DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+    Encoders encoders;
+    //DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
 
     /////////////////////////////////////////////////////////// APPENDAGES
     // MOTORS
@@ -143,8 +144,6 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     //TODO /////////////////////////////////////////////////////////////// CUSTOM PRIVATE FUNCTIONS
-    //TODO ////////////////////////////////////////////////////////////////////////////////////////
-    //TODO ////////////////////////////////////////////////////////////////////////////////////////
     private void initDevices() throws InterruptedException {
         // SENSORS
         initIMU();
@@ -184,27 +183,6 @@ public class LOKI_OPS extends LinearOpMode {
 //        encLeftValue = encoderLeft.getCurrentPosition();
 //        encBackValue = encoderBack.getCurrentPosition();
 //        encRightValue = encoderRight.getCurrentPosition();
-//    }
-
-    //TODO ////////////////////////////////////////////////////////////////////////////////////////
-//    private void initMotors() throws InterruptedException {
-//        frontLeftMotor = hardwareMap.dcMotor.get("frontleft");
-//        backLeftMotor = hardwareMap.dcMotor.get("backleft");
-//        frontRightMotor = hardwareMap.dcMotor.get("frontright");
-//        backRightMotor = hardwareMap.dcMotor.get("backright");
-//        // Reverse the right side motors.
-//        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        // Set to brake mode
-//        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        // Run without encoder
-//        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //    }
     private void runDrive() throws InterruptedException {
         // DRIVETRAIN
@@ -269,13 +247,6 @@ public class LOKI_OPS extends LinearOpMode {
         drivetrain.bottomLeftDriveMotor.setPower(backLeftPower);
         drivetrain.topRightDriveMotor.setPower(frontRightPower);
         drivetrain.bottomRightDriveMotor.setPower(backRightPower);
-
-        frontLeftMotor = drivetrain.topLeftDriveMotor;
-
-        //frontLeftMotor.setPower(frontLeftPower);
-//        backLeftMotor.setPower(backLeftPower);
-//        frontRightMotor.setPower(frontRightPower);
-//        backRightMotor.setPower(backRightPower);
     }
 
     private void initPixelArm() throws InterruptedException {

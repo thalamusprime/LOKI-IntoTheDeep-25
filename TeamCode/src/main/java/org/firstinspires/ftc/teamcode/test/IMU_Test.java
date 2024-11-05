@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205.test;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

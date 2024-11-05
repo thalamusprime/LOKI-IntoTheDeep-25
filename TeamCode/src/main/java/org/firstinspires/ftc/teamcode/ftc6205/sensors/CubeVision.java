@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205.opencv;
+package org.firstinspires.ftc.teamcode.ftc6205.sensors;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
