@@ -14,94 +14,29 @@ import java.util.ArrayList;
 @Disabled
 public class DSTelemetry {
     Telemetry telemetry;
-//    @Override
-//    public void runOpMode() throws InterruptedException {
+    String tag4_x = "";
+    String tag4_y = "";
+    String tag4_z = "";
+    String tag5_x = "";
+    String tag5_y = "";
+    String tag5_z = "";
+    String tag6_x = "";
+    String tag6_y = "";
+    String tag6_z = "";
+    String tag7_x = "";
+    String tag7_y = "";
+    String tag7_z = "";
+    String tag8_x = "";
+    String tag8_y = "";
+    String tag8_z = "";
 
-    //    DcMotor encoderLeft;
-    //    DcMotor encoderBack;
-    //    DcMotor encoderRight;
-    //
-    //    // TELEMETRY
-    //
-    //    // IMU
-    //    //TrueNorth pidControl;
-    //    double refHeading, botHeading, pidOutput;
-    //    double y, x, rz;
-    //    double rotX, rotY;
-    //
-    //    // SENSORS
-    //
-    //    // SERVOS
-    //    Servo purpDrop; //purp-drop
-    //    Servo purpLift; //purp-lift
-    //
-    //    // ENCODERS
-    //    double encLeftValue;
-    //    double encBackValue;
-    //    double encRightValue;
-    //
-    //    // AprilTag
-    //    AprilTagProcessor tagProcessor;
-    //    // VisionPortal
-    //    VisionPortal visionPortal;
     // Send telemetry data
     public void sendTelemetry(
-            Telemetry telemetry,
-            //AprilTagProcessor tagProcessor,
-            //VisionPortal visionPortal,
-//            double y,
-//            double x,
-//            double rz,
-//            double refHeading,
-//            double botHeading,
-//            double pidOutput,
-//            Servo purpDrop,
-            double encLeftValue,
-            double encBackValue,
-            double encRightValue
-            ) throws InterruptedException {
-        String servo0 = "";
-        String servo1 = "";
-        String tag4_x = "";
-        String tag4_y = "";
-        String tag4_z = "";
-        String tag5_x = "";
-        String tag5_y = "";
-        String tag5_z = "";
-        String tag6_x = "";
-        String tag6_y = "";
-        String tag6_z = "";
-        String tag7_x = "";
-        String tag7_y = "";
-        String tag7_z = "";
-        String tag8_x = "";
-        String tag8_y = "";
-        String tag8_z = "";
-
-//        telemetry.addLine(String.format(
-//                "Throttle y:x:rz | %5.2f : %5.2f : %5.2f",
-//                y,
-//                x,
-//                rz));
-//        telemetry.addLine(String.format(
-//                "REF|BOT|PID %5.2f %5.2f %5.2f",
-//                refHeading,
-//                botHeading,
-//                pidOutput));
-
-//        telemetry.addLine(String.format(
-//                "SERVO (0|1) %5.2f,
-//                purpDrop.getPosition()
-//        ));
-
-//        telemetry.addLine(String.format(
-//                "COLOR rgb|a %5.2f %5.2f %5.2f %5.2f",
-//                redValue,
-//                greenValue,
-//                blueValue,
-//        ));
-//                alphaValue     // light on
-
+                            Telemetry telemetry,
+                            double encLeftValue,
+                            double encBackValue,
+                            double encRightValue
+        ) throws InterruptedException {
         telemetry.addLine(String.format(
                 "ENCODER L|B|R %5.2f %5.2f %5.2f",
                 encLeftValue * 0.003, // 0.0075
