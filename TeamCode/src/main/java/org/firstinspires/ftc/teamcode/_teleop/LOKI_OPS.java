@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205._teleop;
+package org.firstinspires.ftc.teamcode._teleop;
 
 import android.util.Size;
 
@@ -33,7 +33,6 @@ public class LOKI_OPS extends LinearOpMode {
     //////////////////////////////////////////////////////////// DRIVETRAIN
     Drivetrain drivetrain;
     Encoders encoders;
-    //DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
 
     /////////////////////////////////////////////////////////// APPENDAGES
     // MOTORS
@@ -67,15 +66,20 @@ public class LOKI_OPS extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Drivetrain
-        drivetrain = new Drivetrain();
-        drivetrain.init(hardwareMap);
-
         // FtcDashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
+        // Deadwheel encoders, declare BEFORE drive motor declaration
+        encoders = new Encoders();
+        encoders.init(hardwareMap);
+
+        // Drivetrain motors
+        drivetrain = new Drivetrain();
+        drivetrain.init(hardwareMap);
+
+        // Other sensors/motors
         initDevices();
 
         // Pause until "Play".  Close program if "Stop".
@@ -137,7 +141,7 @@ public class LOKI_OPS extends LinearOpMode {
 //            }
 
             // RUN
-            //runEncoders();      //encoders
+            runEncoders();      //encoders
             runDrive();         //drivetrain
             //sendTelemetry();    //telemetry
         }
@@ -163,27 +167,12 @@ public class LOKI_OPS extends LinearOpMode {
         initVision();
         //initCV();
     }
-//    private void initEncoders() throws InterruptedException {
-//        // Encoders
-//        encoderLeft = hardwareMap.dcMotor.get("frontleft");
-//        encoderBack = hardwareMap.dcMotor.get("backleft");
-//        encoderRight = hardwareMap.dcMotor.get("frontright");
-//        encoderLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-//        encoderLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        encoderBack.setDirection(DcMotorSimple.Direction.FORWARD);
-//        encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        encoderBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        encoderRight.setDirection(DcMotorSimple.Direction.REVERSE);
-//        encoderRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//    }
-//    private void runEncoders() throws InterruptedException {
-//        // Get current encoder position
-//        encLeftValue = encoderLeft.getCurrentPosition();
-//        encBackValue = encoderBack.getCurrentPosition();
-//        encRightValue = encoderRight.getCurrentPosition();
-//    }
+    private void runEncoders() throws InterruptedException {
+        // Get current encoder position
+        encLeftValue = encoders.encoderLeft.getCurrentPosition();
+        encBackValue = encoders.encoderBack.getCurrentPosition();
+        encRightValue = encoders.encoderRight.getCurrentPosition();
+    }
     private void runDrive() throws InterruptedException {
         // DRIVETRAIN
         // Get yaw, reset in match optional
@@ -193,9 +182,9 @@ public class LOKI_OPS extends LinearOpMode {
             imu.resetYaw();
         }
         if (gamepad1.back) {
-            encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            encoders.encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            encoders.encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            encoders.encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             //pixelArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             //pixelArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
@@ -247,6 +236,8 @@ public class LOKI_OPS extends LinearOpMode {
         drivetrain.bottomLeftDriveMotor.setPower(backLeftPower);
         drivetrain.topRightDriveMotor.setPower(frontRightPower);
         drivetrain.bottomRightDriveMotor.setPower(backRightPower);
+
+
     }
 
     private void initPixelArm() throws InterruptedException {

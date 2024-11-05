@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.ftc6205.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drivetrain {
@@ -20,15 +21,9 @@ public class Drivetrain {
         topRightDriveMotor = hwMap.dcMotor.get("frontright");
         bottomRightDriveMotor = hwMap.dcMotor.get("backright");
 
-        //todo: research why front two motors do not work with this method call
-        //topLeftDriveMotor = hwMap.get(DcMotor.class, "frontleft");
-        //bottomLeftDriveMotor = hwMap.get(DcMotor.class, "backleft");
-        //topRightDriveMotor = hwMap.get(DcMotor.class, "frontright");
-        //bottomRightDriveMotor = hwMap.get(DcMotor.class, "backright");
-
         //THIS IS THE CORRECT ORIENTATION
-        //topLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
-        //bottomLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        topLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        bottomLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         topRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
         bottomRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
