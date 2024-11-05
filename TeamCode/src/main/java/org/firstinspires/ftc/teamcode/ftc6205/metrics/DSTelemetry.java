@@ -78,15 +78,15 @@ public class DSTelemetry {
 //                    }
 //                }
 //            }
-////            telemetry.addLine("---");
-////            telemetry.addLine("=== BLUE");
-////            telemetry.addLine("ID (1)" + tag1_x +  tag1_y + tag1_z);
-////            telemetry.addLine("ID (2)" + tag2_x +  tag2_y + tag2_y);
-////            telemetry.addLine("ID (3)" + tag3_x +  tag3_y + tag3_z);
-////            telemetry.addLine("---");
-////            telemetry.addLine("ID (9)" + tag9_x +  tag9_y + tag9_z);
-////            telemetry.addLine("ID (10)" + tag10_x +  tag10_y + tag10_z);
-////            telemetry.addLine("---");
+//            telemetry.addLine("---");
+//            telemetry.addLine("=== BLUE");
+//            telemetry.addLine("ID (1)" + tag1_x +  tag1_y + tag1_z);
+//            telemetry.addLine("ID (2)" + tag2_x +  tag2_y + tag2_y);
+//            telemetry.addLine("ID (3)" + tag3_x +  tag3_y + tag3_z);
+//            telemetry.addLine("---");
+//            telemetry.addLine("ID (9)" + tag9_x +  tag9_y + tag9_z);
+//            telemetry.addLine("ID (10)" + tag10_x +  tag10_y + tag10_z);
+//            telemetry.addLine("---");
 //
 //            telemetry.addLine("---");
 //            telemetry.addLine("=== RED");
