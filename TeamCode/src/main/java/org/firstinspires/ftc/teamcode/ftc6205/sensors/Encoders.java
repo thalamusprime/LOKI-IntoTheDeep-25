@@ -26,4 +26,12 @@ public class Encoders {
         encoderRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
+    public void runEncoders() throws InterruptedException {
+        // Get current encoder position
+        encLeftValue = encoderLeft.getCurrentPosition();
+        encBackValue = encoderBack.getCurrentPosition();
+        encRightValue = encoderRight.getCurrentPosition();
+    }
+
 }

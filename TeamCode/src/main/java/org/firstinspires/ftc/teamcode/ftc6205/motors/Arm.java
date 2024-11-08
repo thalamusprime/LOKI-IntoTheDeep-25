@@ -23,8 +23,9 @@ public class Arm extends OpMode {
     public static double i = 0;
     public static double d = 0.01;
     public static double f = 0.005;
-    public static int pixelArmLow = 3400;
-    public static int pixelArmHigh = 2350;
+    public static int armFloor = 3400;
+    public static int armLowGoal = 2350;
+    public static int armInit = 0;
     public static int target = 0;
 
     //private final double ticks_in_degree = 5281.1/360; //537.7;
@@ -48,13 +49,13 @@ public class Arm extends OpMode {
         //timer = new Timing.Timer();
         timer = new Timer();
     }
-    public void initServo(HardwareMap ahwMap) {
+    public void initArm(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm = hwMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -130,5 +131,9 @@ public class Arm extends OpMode {
 
     public int getCurrentPosition() {
         return arm.getCurrentPosition();
+    }
+
+    public void setMode(DcMotor.RunMode mode) {
+        arm.setMode(mode);
     }
 }

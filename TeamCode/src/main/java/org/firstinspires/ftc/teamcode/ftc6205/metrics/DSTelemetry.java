@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.Touch;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 @Disabled
 public class DSTelemetry {
     Telemetry telemetry;
+
+    Encoders encoders = new Encoders();
+
     String tag4_x = "";
     String tag4_y = "";
     String tag4_z = "";
@@ -32,17 +37,32 @@ public class DSTelemetry {
 
     // Send telemetry data
     public void sendTelemetry(
-                            Telemetry telemetry,
-                            double encLeftValue,
-                            double encBackValue,
-                            double encRightValue
-        ) throws InterruptedException {
+            Telemetry telemetry,
+            Encoders encoders,
+            Touch touchArm
+    ) throws InterruptedException {
+
         telemetry.addLine(String.format(
                 "ENCODER L|B|R %5.2f %5.2f %5.2f",
-                encLeftValue * 0.003, // 0.0075
-                encBackValue * 0.003,
-                encRightValue * 0.003
+                encoders.encLeftValue * 0.003, // 0.0075
+                encoders.encBackValue * 0.003,
+                encoders.encRightValue * 0.003
         ));
+        telemetry.addLine(String.valueOf(touchArm.touchValue));
+
+//    public void sendTelemetry(
+//                Telemetry telemetry,
+//        double encLeftValue,
+//        double encBackValue,
+//        double encRightValue
+//        ) throws InterruptedException {
+//
+//            telemetry.addLine(String.format(
+//                    "ENCODER L|B|R %5.2f %5.2f %5.2f",
+//                    encLeftValue * 0.003, // 0.0075
+//                    encBackValue * 0.003,
+//                    encRightValue * 0.003
+//            ));
 
         //Vision Processing
 //        int tags = tagProcessor.getDetections().size();
