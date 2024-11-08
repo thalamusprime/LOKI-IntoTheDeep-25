@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.ftc6205.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drivetrain {
-    public DcMotor topLeftDriveMotor;
-    public DcMotor bottomLeftDriveMotor;
-    public DcMotor topRightDriveMotor;
-    public DcMotor bottomRightDriveMotor;
+    public DcMotor frontLeftDriveMotor;
+    public DcMotor backLeftDriveMotor;
+    public DcMotor frontRightDriveMotor;
+    public DcMotor backRightDriveMotor;
 
     HardwareMap hwMap;
 
@@ -16,27 +15,27 @@ public class Drivetrain {
         hwMap = ahwMap;
 
         // Control HUb
-        topLeftDriveMotor = hwMap.dcMotor.get("frontleft");
-        bottomLeftDriveMotor = hwMap.dcMotor.get("backleft");
-        topRightDriveMotor = hwMap.dcMotor.get("frontright");
-        bottomRightDriveMotor = hwMap.dcMotor.get("backright");
+        frontLeftDriveMotor = hwMap.dcMotor.get("frontleft");
+        backLeftDriveMotor = hwMap.dcMotor.get("backleft");
+        frontRightDriveMotor = hwMap.dcMotor.get("frontright");
+        backRightDriveMotor = hwMap.dcMotor.get("backright");
 
         //THIS IS THE CORRECT ORIENTATION
-        topLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
-        bottomLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
-        topRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
-        bottomRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
         //
-        topLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bottomLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        topRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bottomRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //
-        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
