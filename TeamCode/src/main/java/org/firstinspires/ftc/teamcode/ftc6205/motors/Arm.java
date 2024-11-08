@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,6 +16,7 @@ import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - Pixel Arm", group = "CONFIG")
+@Disabled
 public class Arm extends OpMode {
     public PIDController armController;
     public static double p = 1;
@@ -31,9 +33,24 @@ public class Arm extends OpMode {
     private DcMotorEx arm;
     private Timer timer;
 
+    private HardwareMap hwMap;
 
     @Override
     public void init() {
+
+        armController = new PIDController(p,i,d);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //timer = new Timing.Timer();
+        timer = new Timer();
+    }
+    public void initServo(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -59,14 +76,6 @@ public class Arm extends OpMode {
         telemetry.addData("target ", target);
         telemetry.update();
     }
-
-//    public void initArm(HardwareMap hMap) {
-//        armController = new PIDController(p,i,d);
-//
-//        pixelArm = hardwareMap.get(DcMotorEx.class, "pixelArm");
-//        pixelArm.setDirection(DcMotorSimple.Direction.FORWARD);
-//        pixelArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//    }
 
     public void runArm(int armTarget) {
         armController.setPID(p,i,d);
@@ -99,7 +108,7 @@ public class Arm extends OpMode {
         arm.setPower(0);
     }
 
-        public void runArmUntil(int armTarget) {
+        public void rotArmUntil(int armTarget) {
         if ( Math.abs(armTarget - arm.getCurrentPosition()) >= 2 ) {
             int arm_position = arm.getCurrentPosition();
             double pid = armController.calculate(arm_position, armTarget);
@@ -111,7 +120,7 @@ public class Arm extends OpMode {
         }
     }
 
-    public void drive(double speed){
+    public void rot(double speed){
         arm.setPower(speed);
     }
 

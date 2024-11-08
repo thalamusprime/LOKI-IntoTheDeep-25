@@ -19,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Arm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
@@ -34,15 +35,12 @@ import java.util.ArrayList;
 public class LOKI_OPS extends LinearOpMode {
     //////////////////////////////////////////////////////////// DRIVETRAIN
     DSTelemetry dsTelemetry;
-    Drivetrain drivetrain;
     Encoders encoders;
+    Drivetrain drivetrain;
     Claw claw; //claw
-    //PixelArm pixelArm;
+    Arm arm;
 
-    /////////////////////////////////////////////////////////// APPENDAGES
-    // MOTORS
-//    LiftArm liftArm;
-//    LiftWrist liftWrist;
+    ///////////////////////////////////////////////////////////
     // SERVOS
     Servo pixelThumb; //purp-drop
 
@@ -82,9 +80,13 @@ public class LOKI_OPS extends LinearOpMode {
         drivetrain = new Drivetrain();
         drivetrain.init(hardwareMap);
 
-        // PixelWrist
+        // Claw
         claw = new Claw();
         claw.init(hardwareMap);
+
+        // Claw
+        arm = new Arm();
+        arm.initServo(hardwareMap);
 
         // Other sensors/motors
         initDevices();
@@ -98,7 +100,6 @@ public class LOKI_OPS extends LinearOpMode {
 
         /////////////////////////////////////////////////////////////// TELEOP LOOP
         while (opModeIsActive()) {
-
             // OPEN/CLOSE claw
             if (gamepad1.x) {
                 claw.setPosition(AUTOConstants.claw_pinch);
@@ -108,21 +109,20 @@ public class LOKI_OPS extends LinearOpMode {
                 claw.setPosition(AUTOConstants.claw_pinch);
             }
 
-            // TODO: pixelARM - Manual
-//            if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_down) {
-//                pixelArm.drive(0.5);
-//            }  else if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_up) {
-//                pixelArm.drive(-0.5);
-//            }  else if (gamepad1.a) {
-//                pixelArm.runArmUntil(pixelArm.pixelArmLow);
-//            }  else if (gamepad1.b) {
-//                pixelArm.runArmUntil(pixelArm.pixelArmHigh);
-//            }  else if (gamepad1.right_bumper) {
-//                pixelClaw.setPosition(AUTOConstants.claw_pinch);
-//                pixelArm.runArmUntil(0);
-//            }  else {
-//                pixelArm.drive(0);
-//            }
+            // ROTATE ARM
+            if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_down) {
+                arm.rot(0.5);
+            }  else if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_up) {
+                arm.rot(-0.5);
+            }  else if (gamepad1.a) {
+                arm.rotArmUntil(arm.pixelArmLow);
+            }  else if (gamepad1.b) {
+                arm.rotArmUntil(arm.pixelArmHigh);
+            }  else if (gamepad1.right_bumper) {
+                arm.rotArmUntil(0);
+            }  else {
+                arm.rot(0);
+            }
 
             // TODO: liftArm - Manual
 //            if (gamepad1.right_bumper && gamepad1.dpad_left) {
