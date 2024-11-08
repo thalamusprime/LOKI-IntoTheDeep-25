@@ -21,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.PixelArm;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -36,10 +37,10 @@ public class LOKI_OPS extends LinearOpMode {
     Drivetrain drivetrain;
     Encoders encoders;
     DSTelemetry dsTelemetry;
+    PixelArm pixelArm;
 
     /////////////////////////////////////////////////////////// APPENDAGES
     // MOTORS
-//    PixelArm pixelArm;
 //    LiftArm liftArm;
 //    LiftWrist liftWrist;
     // SERVOS
@@ -105,20 +106,20 @@ public class LOKI_OPS extends LinearOpMode {
             }
 
             // TODO: pixelARM - Manual
-//            if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_down) {
-//                pixelArm.drive(0.5);
-//            }  else if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_up) {
-//                pixelArm.drive(-0.5);
-//            }  else if (gamepad1.a) {
-//                pixelArm.runArmUntil(pixelArm.pixelArmLow);
-//            }  else if (gamepad1.b) {
-//                pixelArm.runArmUntil(pixelArm.pixelArmHigh);
-//            }  else if (gamepad1.right_bumper) {
-//                pixelClaw.setPosition(AUTOConstants.claw_pinch);
-//                pixelArm.runArmUntil(0);
-//            }  else {
-//                pixelArm.drive(0);
-//            }
+            if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_down) {
+                pixelArm.drive(0.5);
+            }  else if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_up) {
+                pixelArm.drive(-0.5);
+            }  else if (gamepad1.a) {
+                pixelArm.runArmUntil(pixelArm.pixelArmLow);
+            }  else if (gamepad1.b) {
+                pixelArm.runArmUntil(pixelArm.pixelArmHigh);
+            }  else if (gamepad1.right_bumper) {
+                pixelClaw.setPosition(AUTOConstants.claw_pinch);
+                pixelArm.runArmUntil(0);
+            }  else {
+                pixelArm.drive(0);
+            }
 
             // TODO: liftArm - Manual
 //            if (gamepad1.right_bumper && gamepad1.dpad_left) {
@@ -191,8 +192,8 @@ public class LOKI_OPS extends LinearOpMode {
             encoders.encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             encoders.encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             encoders.encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //pixelArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //pixelArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            pixelArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            pixelArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         // Get XY: gamepad1
@@ -247,8 +248,8 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void initPixelArm() throws InterruptedException {
-//        pixelArm = new PixelArm();
-//        pixelArm.initPixelArm(hardwareMap);
+        pixelArm = new PixelArm();
+        pixelArm.initPixelArm(hardwareMap);
         //armController = new PIDController(pixelArm.p,pixelArm.i,pixelArm.d);
     }
 
