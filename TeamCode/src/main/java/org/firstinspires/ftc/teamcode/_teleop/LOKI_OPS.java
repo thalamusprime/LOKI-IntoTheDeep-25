@@ -23,12 +23,16 @@ import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Arm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.LiftArm;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.LiftWrist;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.Touch;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
+
+import com.arcrobotics.ftclib.controller.PIDController;
 
 @TeleOp(name = "*: LOKI", group = "6205")
 public class LOKI_OPS extends LinearOpMode {
@@ -41,6 +45,10 @@ public class LOKI_OPS extends LinearOpMode {
     Touch touchArm;
 
     ///////////////////////////////////////////////////////////
+    PIDController armController;
+    LiftArm liftArm;
+    LiftWrist liftWrist;
+
     // SERVOS
     Servo pixelThumb; //purp-drop
 
@@ -93,6 +101,9 @@ public class LOKI_OPS extends LinearOpMode {
         touchArm.init(hardwareMap);
 
         // Other sensors/motors
+//        initLiftArm();
+//        initLiftWrist();
+
         initDevices();
 
         // Pause until "y".  Close program if "Stop".
@@ -126,30 +137,30 @@ public class LOKI_OPS extends LinearOpMode {
             }
 
             // TODO: liftArm - Manual
-//            if (gamepad1.right_bumper && gamepad1.dpad_left) {
-//                liftArm.drive(0.2);
-//            }  else if (gamepad1.right_bumper && gamepad1.dpad_right) {
-//                liftArm.drive(-0.2);
-//            }  else if (gamepad1.left_bumper && gamepad1.dpad_left) {
-//                liftArm.runArmUntil(liftArm.liftArmHigh);
-//            }  else if (gamepad1.left_bumper && gamepad1.dpad_right) {
-//                liftArm.runArmUntil(liftArm.liftArmLow);
-//            }  else {
-//                liftArm.drive(0);
-//            }
+            if (gamepad1.right_bumper && gamepad1.dpad_left) {
+                liftArm.drive(0.2);
+            }  else if (gamepad1.right_bumper && gamepad1.dpad_right) {
+                liftArm.drive(-0.2);
+            }  else if (gamepad1.left_bumper && gamepad1.dpad_left) {
+                liftArm.runArmUntil(liftArm.liftArmHigh);
+            }  else if (gamepad1.left_bumper && gamepad1.dpad_right) {
+                liftArm.runArmUntil(liftArm.liftArmLow);
+            }  else {
+                liftArm.drive(0);
+            }
 
             // TODO: liftWrist - Manual
-//            if (gamepad1.right_bumper && gamepad1.dpad_down) {
-//                liftWrist.drive(-0.75);
-//            }  else if (gamepad1.right_bumper && gamepad1.dpad_up) {
-//                liftWrist.drive(0.75);
-//            }  else if (gamepad1.left_bumper && gamepad1.dpad_up) {
-//                liftWrist.runArmUntil(liftWrist.liftWristHigh);
-//            }  else if (gamepad1.left_bumper && gamepad1.dpad_down) {
-//                liftWrist.runArmUntil(liftWrist.liftWristLow);
-//            } else {
-//                liftWrist.drive(0);
-//            }
+            if (gamepad1.right_bumper && gamepad1.dpad_down) {
+                liftWrist.drive(-0.75);
+            }  else if (gamepad1.right_bumper && gamepad1.dpad_up) {
+                liftWrist.drive(0.75);
+            }  else if (gamepad1.left_bumper && gamepad1.dpad_up) {
+                liftWrist.runArmUntil(liftWrist.liftWristHigh);
+            }  else if (gamepad1.left_bumper && gamepad1.dpad_down) {
+                liftWrist.runArmUntil(liftWrist.liftWristLow);
+            } else {
+                liftWrist.drive(0);
+            }
 
             // RUN SUBSYSTEMS
             touchArm.isPressed();   // arm touching floor?
@@ -237,15 +248,15 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void initLiftArm() throws InterruptedException {
-//        liftArm = new LiftArm();
-//        liftArm.initLiftArm(hardwareMap);
-        //armController = new PIDController(liftArm.p,liftArm.i,liftArm.d);
+        liftArm = new LiftArm();
+        liftArm.initLiftArm(hardwareMap);
+        armController = new PIDController(liftArm.p,liftArm.i,liftArm.d);
     }
 
     private void initLiftWrist() throws InterruptedException {
-//        liftWrist = new LiftWrist();
-//        liftWrist.initLiftWrist(hardwareMap);
-        //armController = new PIDController(liftArm.p,liftArm.i,liftArm.d);
+        liftWrist = new LiftWrist();
+        liftWrist.initLiftWrist(hardwareMap);
+        armController = new PIDController(liftArm.p,liftArm.i,liftArm.d);
     }
 
     private void initDistSensors() throws InterruptedException {
