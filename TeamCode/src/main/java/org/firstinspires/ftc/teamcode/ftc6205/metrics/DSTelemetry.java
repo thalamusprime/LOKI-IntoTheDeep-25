@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode.ftc6205.metrics;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.Touch;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
-import java.util.ArrayList;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 
 //@TeleOp
 @Disabled
@@ -39,7 +33,7 @@ public class DSTelemetry {
     public void sendTelemetry(
             Telemetry telemetry,
             Encoders encoders,
-            Touch touchArm
+            FieldSense fieldSenseArm
     ) throws InterruptedException {
 
         telemetry.addLine(String.format(
@@ -48,7 +42,7 @@ public class DSTelemetry {
                 encoders.encBackValue * 0.003,
                 encoders.encRightValue * 0.003
         ));
-        telemetry.addLine(String.valueOf(touchArm.touchValue));
+        telemetry.addLine(String.valueOf(fieldSenseArm.touchValue));
 
 //    public void sendTelemetry(
 //                Telemetry telemetry,

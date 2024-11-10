@@ -16,7 +16,7 @@ import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - Lift Arm", group = "CONFIG")
-public class LiftArm extends OpMode {
+public class LongArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
     public static double i = 0;
@@ -29,7 +29,7 @@ public class LiftArm extends OpMode {
     //private final double ticks_in_degree = 5281.1/360; //537.7;
     public static double ticks_in_degree = 1680; //5281.1/360; //537.7;
 
-    private DcMotorEx liftArm;
+    private DcMotorEx longArm;
     private Timer timer;
 
 
@@ -38,9 +38,9 @@ public class LiftArm extends OpMode {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        liftArm = hardwareMap.get(DcMotorEx.class, "liftArm");
-        liftArm.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        longArm = hardwareMap.get(DcMotorEx.class, "liftArm");
+        longArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        longArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //timer = new Timing.Timer();
         timer = new Timer();
@@ -48,13 +48,13 @@ public class LiftArm extends OpMode {
     @Override
     public void loop(){
         armController.setPID(p,i,d);
-        int arm_position = liftArm.getCurrentPosition();
+        int arm_position = longArm.getCurrentPosition();
         double pid = armController.calculate(arm_position, target);
         double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
         double power = pid * ff;
 
-        liftArm.setPower(power);
+        longArm.setPower(power);
 
         telemetry.addData("position ", arm_position);
         telemetry.addData("target ", target);
@@ -63,45 +63,50 @@ public class LiftArm extends OpMode {
 
     public void runArm(int armTarget) {
         armController.setPID(p,i,d);
-        int arm_position = liftArm.getCurrentPosition();
+        int arm_position = longArm.getCurrentPosition();
         double pid = armController.calculate(arm_position, armTarget);
-        double ff = Math.cos(Math.toRadians(armTarget / LiftArm.ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(armTarget / LongArm.ticks_in_degree)) * f;
         double power = pid * ff;
-        liftArm.setPower(power);
+        longArm.setPower(power);
     }
 
-    public void initLiftArm(HardwareMap hMap) {
+    public void initLongArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        liftArm = hMap.get(DcMotorEx.class, "liftArm");
-        liftArm.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        longArm = hMap.get(DcMotorEx.class, "longArm");
+        longArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        longArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         timer = new Timer();
     }
+//    private void initLiftArm() throws InterruptedException {
+//        longArm = new LongArm();
+//        longArm.initLiftArm(hardwareMap);
+//        armController = new PIDController(longArm.p, longArm.i, longArm.d);
+//    }
 
     public void runArmUntil(int armTarget) {
-        if ( Math.abs(armTarget - liftArm.getCurrentPosition()) >= 2 ) {
-            int arm_position = liftArm.getCurrentPosition();
+        if ( Math.abs(armTarget - longArm.getCurrentPosition()) >= 2 ) {
+            int arm_position = longArm.getCurrentPosition();
             double pid = armController.calculate(arm_position, armTarget);
-            double ff = Math.cos(Math.toRadians(armTarget / LiftArm.ticks_in_degree)) * f;
+            double ff = Math.cos(Math.toRadians(armTarget / LongArm.ticks_in_degree)) * f;
             double power = pid * ff;
-            liftArm.setPower(power);
+            longArm.setPower(power);
         } else {
-            liftArm.setPower(0);
+            longArm.setPower(0);
         }
     }
 
     public void drive(double speed){
-        liftArm.setPower(speed);
+        longArm.setPower(speed);
     }
 
     public int getTargetPosition() {
-        return liftArm.getTargetPosition();
+        return longArm.getTargetPosition();
     }
 
     public int getCurrentPosition() {
-        return liftArm.getCurrentPosition();
+        return longArm.getCurrentPosition();
     }
 }

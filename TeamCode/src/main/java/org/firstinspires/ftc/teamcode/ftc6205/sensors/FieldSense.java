@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.ftc6205.sensors;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-public class Touch {
+public class FieldSense {
     public TouchSensor touchARM;
     public boolean touchValue;
     //public double touchState;

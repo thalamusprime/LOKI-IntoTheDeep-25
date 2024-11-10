@@ -9,13 +9,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - Lift Wrist", group = "CONFIG")
-public class LiftWrist extends OpMode {
+public class ForeArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
     public static double i = 0;
@@ -28,7 +29,8 @@ public class LiftWrist extends OpMode {
     //private final double ticks_in_degree = 5281.1/360; //537.7;
     public static double ticks_in_degree = 1680; //5281.1/360; //537.7;
 
-    private DcMotorEx liftWrist;
+    private DcMotorEx foreArm;
+    private Gamepad gamepad1;
     private Timer timer;
 
 
@@ -37,9 +39,9 @@ public class LiftWrist extends OpMode {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        liftWrist = hardwareMap.get(DcMotorEx.class, "liftWrist");
-        liftWrist.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftWrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        foreArm = hardwareMap.get(DcMotorEx.class, "liftWrist");
+        foreArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        foreArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //timer = new Timing.Timer();
         timer = new Timer();
@@ -47,13 +49,13 @@ public class LiftWrist extends OpMode {
     @Override
     public void loop(){
         armController.setPID(p,i,d);
-        int arm_position = liftWrist.getCurrentPosition();
+        int arm_position = foreArm.getCurrentPosition();
         double pid = armController.calculate(arm_position, target);
         double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
         double power = pid * ff;
 
-        liftWrist.setPower(power);
+        foreArm.setPower(power);
 
         telemetry.addData("position ", arm_position);
         telemetry.addData("target ", target);
@@ -63,52 +65,56 @@ public class LiftWrist extends OpMode {
     public void initArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
 
-        liftWrist = hardwareMap.get(DcMotorEx.class, "liftWrist");
-        liftWrist.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftWrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        foreArm = hardwareMap.get(DcMotorEx.class, "foreArm");
+        foreArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        foreArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void runArm(int armTarget) {
         armController.setPID(p,i,d);
-        int arm_position = liftWrist.getCurrentPosition();
+        int arm_position = foreArm.getCurrentPosition();
         double pid = armController.calculate(arm_position, armTarget);
-        double ff = Math.cos(Math.toRadians(armTarget / LiftWrist.ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(armTarget / ForeArm.ticks_in_degree)) * f;
         double power = pid * ff;
-        liftWrist.setPower(power);
+        foreArm.setPower(power);
     }
 
-    public void initLiftWrist(HardwareMap hMap) {
+    public void initForeArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        liftWrist = hMap.get(DcMotorEx.class, "liftWrist");
-        liftWrist.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftWrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        foreArm = hMap.get(DcMotorEx.class, "foreArm");
+        foreArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        foreArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         timer = new Timer();
     }
 
     public void runArmUntil(int armTarget) {
-        if ( Math.abs(armTarget - liftWrist.getCurrentPosition()) >= 2 ) {
-            int arm_position = liftWrist.getCurrentPosition();
+        if ( Math.abs(armTarget - foreArm.getCurrentPosition()) >= 2 ) {
+            int arm_position = foreArm.getCurrentPosition();
             double pid = armController.calculate(arm_position, armTarget);
-            double ff = Math.cos(Math.toRadians(armTarget / LiftWrist.ticks_in_degree)) * f;
+            double ff = Math.cos(Math.toRadians(armTarget / ForeArm.ticks_in_degree)) * f;
             double power = pid * ff;
-            liftWrist.setPower(power);
+            foreArm.setPower(power);
         } else {
-            liftWrist.setPower(0);
+            foreArm.setPower(0);
         }
     }
 
     public void drive(double speed){
-        liftWrist.setPower(speed);
+        foreArm.setPower(speed);
+    }
+
+    public void reach(Gamepad gpad) {
+        gamepad1 = gpad;
     }
 
     public int getTargetPosition() {
-        return liftWrist.getTargetPosition();
+        return foreArm.getTargetPosition();
     }
 
     public int getCurrentPosition() {
-        return liftWrist.getCurrentPosition();
+        return foreArm.getCurrentPosition();
     }
 }

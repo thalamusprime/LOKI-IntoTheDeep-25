@@ -17,7 +17,7 @@ import java.util.Timer;
 @Config
 @TeleOp(name = "CONFIG - Pixel Arm", group = "CONFIG")
 @Disabled
-public class Arm extends OpMode {
+public class ShortArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
     public static double i = 0;
@@ -82,7 +82,7 @@ public class Arm extends OpMode {
         armController.setPID(p,i,d);
         int arm_position = arm.getCurrentPosition();
         double pid = armController.calculate(arm_position, armTarget);
-        double ff = Math.cos(Math.toRadians(armTarget / Arm.ticks_in_degree)) * f;
+        double ff = Math.cos(Math.toRadians(armTarget / ShortArm.ticks_in_degree)) * f;
         double power = pid * ff;
         arm.setPower(power);
     }
@@ -102,7 +102,7 @@ public class Arm extends OpMode {
         while ( Math.abs(armTarget - arm.getCurrentPosition()) > 1 ) {
             int arm_position = arm.getCurrentPosition();
             double pid = armController.calculate(arm_position, armTarget);
-            double ff = Math.cos(Math.toRadians(armTarget / Arm.ticks_in_degree)) * f;
+            double ff = Math.cos(Math.toRadians(armTarget / ShortArm.ticks_in_degree)) * f;
             double power = pid * ff;
             arm.setPower(power);
         }
@@ -113,7 +113,7 @@ public class Arm extends OpMode {
         if ( Math.abs(armTarget - arm.getCurrentPosition()) >= 2 ) {
             int arm_position = arm.getCurrentPosition();
             double pid = armController.calculate(arm_position, armTarget);
-            double ff = Math.cos(Math.toRadians(armTarget / Arm.ticks_in_degree)) * f;
+            double ff = Math.cos(Math.toRadians(armTarget / ShortArm.ticks_in_degree)) * f;
             double power = pid * ff;
             arm.setPower(power);
         } else {
