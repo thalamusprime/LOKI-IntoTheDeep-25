@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode._teleop;
 
-import static org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants.touch_duration;
-
 import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -17,7 +15,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
@@ -56,7 +53,6 @@ public class LOKI_OPS extends LinearOpMode {
     double refHeading, botHeading, pidOutput;
     double y, x, rz, rotX, rotY;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize subsystems
@@ -64,37 +60,29 @@ public class LOKI_OPS extends LinearOpMode {
         this.initActuators();
         this.initSensors();
 
-        // Pause until "PLAY".  Close program if "Stop".
-        waitForStart();
+        waitForStart();                     // Pause until "PLAY".  Close program if "Stop".
         if (isStopRequested()) return;
 
         /////////////////////////////////////////////////////////////// TELEOP LOOP
         while (opModeIsActive()) {
-            // OPEN/CLOSE claw
-            if (gamepad1.right_bumper) {
-                claw.setPosition(AUTOConstants.claw_release);
-            } else {
-                claw.setPosition(AUTOConstants.claw_pinch);
-            }
-
-            // Rumble gamepad1 when touchArm on floor
-            if (fieldSense.isPressed()) {
-                gamepad1.rumble(touch_duration);
-            }
-
             // RUN SUBSYSTEMS
-            shortArm.rotate(gamepad1); // ROTATE SHORTARM
+            fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
+            claw.grab(gamepad1);            // GRAB CLAW
+            shortArm.rotate(gamepad1);      // ROTATE SHORTARM
             longArm.raise(gamepad1);        // RAISE LONGARM
             foreArm.reach(gamepad1);        // REACH FOREARM reach
-            fieldSense.isPressed();         // arm touching floor?
-            driveEncoders.runEncoders();    // drive encoders
-            this.runMain();         // todo imu.runTrueNorth | this.runResetEncoders | imu.runIMU | drivetrain.runBot
-            dsTelemetry.sendTelemetry(telemetry, driveEncoders, fieldSense);    //telemetry
+            driveEncoders.runEncoders();    // READ DRIVEENCODERS
+            this.resetCheck();              // RESET TrueNorth | encoders
+            this.runFieldCentric();
+            drivetrain.runBot(gamepad1, rotY, rotX, rz);
+
+            dsTelemetry.sendTelemetry(  telemetry,
+                                        driveEncoders,
+                                        fieldSense);    //telemetry
         }
     }
 
-    //TODO /////////////////////////////////////////////////////////////// CUSTOM PRIVATE FUNCTIONS
-
+    // TODO create Monitor
     private void initMonitoring() {
         // FtcDashboard
         dashboard = FtcDashboard.getInstance();
@@ -128,15 +116,7 @@ public class LOKI_OPS extends LinearOpMode {
         fieldSense.init(hardwareMap);
     }
 
-    private void initSensors() throws InterruptedException {
-        // SENSORS
-        initIMU();
-        initDistSensors();
-        initAprilTag();
-        initVision();
-    }
-
-    private void runMain() {
+    private void resetCheck() {
         // todo reset TrueNorth | motor encoders
         // Get yaw, reset in match optional
         if (gamepad1.start) {
@@ -150,8 +130,9 @@ public class LOKI_OPS extends LinearOpMode {
             drivetrain.init(hardwareMap);
         }
 
-        // todo: split IMU field-centric/robot-centric
-        // Get XY: gamepad1
+    }
+
+    private void runFieldCentric() {
         y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         x = -gamepad1.left_stick_x; //-
 
@@ -179,16 +160,23 @@ public class LOKI_OPS extends LinearOpMode {
             rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
         }
         rotX = rotX * 1.1;  // Counteract imperfect strafing
-
-        drivetrain.runBot(gamepad1, rotY, rotX, rz);
-
     }
 
+    private void initSensors() throws InterruptedException {
+        // SENSORS
+        initIMU();
+        initDistSensors();
+        initAprilTag();
+        initVision();
+    }
+
+    // todo create DistSensors.front|back
     private void initDistSensors() {
         distFront = hardwareMap.get(DistanceSensor.class, "distFront");
         distBack = hardwareMap.get(DistanceSensor.class, "distBack");
     }
 
+    // todo create IMU
     private void initIMU() {
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
@@ -199,13 +187,15 @@ public class LOKI_OPS extends LinearOpMode {
         imu.initialize(parameters);
     }
 
+    // todo create WRIST
 //    private void initServos() throws InterruptedException {
 //        //pixelThumb = hardwareMap.servo.get("pixelThumb");
 //        //pixelThumb.setDirection(Servo.Direction.REVERSE);
 //        //pixelThumb.setPosition(0.5);
 //    }
 
-    private void initAprilTag() throws InterruptedException {
+    // todo create AprilTag
+    private void initAprilTag() {
         // Tag Processing
         tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
@@ -215,7 +205,8 @@ public class LOKI_OPS extends LinearOpMode {
                 .build();
     }
 
-    private void initVision() throws InterruptedException {
+    // todo create VISION PORTAL
+    private void initVision() {
         // VisionPortal
         visionPortal = new VisionPortal.Builder()
                 .addProcessor(tagProcessor)
