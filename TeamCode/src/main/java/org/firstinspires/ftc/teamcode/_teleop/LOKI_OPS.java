@@ -77,42 +77,17 @@ public class LOKI_OPS extends LinearOpMode {
                 claw.setPosition(AUTOConstants.claw_pinch);
             }
 
-            // ROTATE SHORTARM
-            if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_down) {
-                shortArm.rot(0.5);
-            }  else if (!gamepad1.left_bumper && !gamepad1.right_bumper && gamepad1.dpad_up) {
-                shortArm.rot(-0.5);
-            }  else if (gamepad1.a) {
-                shortArm.rotArmUntil(shortArm.armFloor);
-            }  else if (gamepad1.b) {
-                shortArm.rotArmUntil(shortArm.armLowGoal);
-            }  else {
-                shortArm.rot(0);
-            }
             // Rumble gamepad1 when touchArm on floor
             if (fieldSense.isPressed()) {
                 gamepad1.rumble(touch_duration);
             }
 
-            // RAISE LONGARM
-            if (gamepad1.right_bumper && gamepad1.dpad_left) {
-                longArm.drive(0.2);
-            }  else if (gamepad1.right_bumper && gamepad1.dpad_right) {
-                longArm.drive(-0.2);
-            }  else if (gamepad1.left_bumper && gamepad1.dpad_left) {
-                longArm.runArmUntil(longArm.liftArmHigh);
-            }  else if (gamepad1.left_bumper && gamepad1.dpad_right) {
-                longArm.runArmUntil(longArm.liftArmLow);
-            }  else {
-                longArm.drive(0);
-            }
-
-            // REACH FOREARM reach
-            foreArm.reach(gamepad1);
-
             // RUN SUBSYSTEMS
-            fieldSense.isPressed(); // arm touching floor?
-            driveEncoders.runEncoders(); // drive encoders
+            shortArm.rotate(gamepad1); // ROTATE SHORTARM
+            longArm.raise(gamepad1);        // RAISE LONGARM
+            foreArm.reach(gamepad1);        // REACH FOREARM reach
+            fieldSense.isPressed();         // arm touching floor?
+            driveEncoders.runEncoders();    // drive encoders
             this.runMain();         // todo imu.runTrueNorth | this.runResetEncoders | imu.runIMU | drivetrain.runBot
             dsTelemetry.sendTelemetry(telemetry, driveEncoders, fieldSense);    //telemetry
         }

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -15,7 +16,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import java.util.Timer;
 
 @Config
-@TeleOp(name = "CONFIG - Lift Arm", group = "CONFIG")
+@TeleOp(name = "CONFIG - ForeArm", group = "CONFIG")
 public class LongArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
@@ -32,6 +33,7 @@ public class LongArm extends OpMode {
     private DcMotorEx longArm;
     private Timer timer;
 
+    private Gamepad gpad1;
 
     @Override
     public void init() {
@@ -70,6 +72,20 @@ public class LongArm extends OpMode {
         longArm.setPower(power);
     }
 
+    public void raise(Gamepad gpad) {
+        gpad1 = gpad;
+        if (gpad1.right_bumper && gpad1.dpad_left) {
+            this.drive(0.2);
+        }  else if (gpad1.right_bumper && gpad1.dpad_right) {
+            this.drive(-0.2);
+        }  else if (gpad1.left_bumper && gpad1.dpad_left) {
+            this.runArmUntil(this.liftArmHigh);
+        }  else if (gpad1.left_bumper && gpad1.dpad_right) {
+            this.runArmUntil(this.liftArmLow);
+        }  else {
+            this.drive(0);
+        }
+    }
     public void initLongArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());

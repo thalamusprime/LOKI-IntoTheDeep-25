@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.Timer;
@@ -35,6 +36,7 @@ public class ShortArm extends OpMode {
     private Timer timer;
 
     private HardwareMap hwMap;
+    private Gamepad gpad1;
 
     @Override
     public void init() {
@@ -127,6 +129,24 @@ public class ShortArm extends OpMode {
 
     public int getTargetPosition() {
         return arm.getTargetPosition();
+    }
+
+    public void rotate(Gamepad gpad) {
+        gpad1 = gpad;
+
+        if (!gpad1.left_bumper && !gpad1.right_bumper && gpad1.dpad_down) {
+            this.rot(0.5);
+        }  else if (!gpad1.left_bumper && !gpad1.right_bumper && gpad1.dpad_up) {
+            this.rot(-0.5);
+        }  else if (gpad1.a) {
+            this.rotArmUntil(this.armFloor);
+        }  else if (gpad1.b) {
+            this.rotArmUntil(this.armLowGoal);
+        }  else {
+            this.rot(0);
+        }
+
+
     }
 
     public int getCurrentPosition() {
