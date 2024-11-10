@@ -218,24 +218,25 @@ public class LOKI_OPS extends LinearOpMode {
         rotX = rotX * 1.1;  // Counteract imperfect strafing
 
         // TODO split driveBot
+        drivetrain.runBot(gamepad1, rotY, rotX, rz);
         // Denominator (absolute value) or 1, at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rz), 1);
-        double frontLeftPower = (rotY + rotX + rz) / denominator;
-        double backLeftPower = (rotY - rotX + rz) / denominator;
-        double frontRightPower = (rotY - rotX - rz) / denominator;
-        double backRightPower = (rotY + rotX - rz) / denominator;
-
-        // Trigger gain
-        frontLeftPower = frontLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
-        backLeftPower = backLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
-        frontRightPower = frontRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
-        backRightPower = backRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
-
-        // Set motor power
-        drivetrain.frontLeftDriveMotor.setPower(frontLeftPower);
-        drivetrain.backLeftDriveMotor.setPower(backLeftPower);
-        drivetrain.frontRightDriveMotor.setPower(frontRightPower);
-        drivetrain.backRightDriveMotor.setPower(backRightPower);
+//        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rz), 1);
+//        double frontLeftPower = (rotY + rotX + rz) / denominator;
+//        double backLeftPower = (rotY - rotX + rz) / denominator;
+//        double frontRightPower = (rotY - rotX - rz) / denominator;
+//        double backRightPower = (rotY + rotX - rz) / denominator;
+//
+//        // Trigger gain
+//        frontLeftPower = frontLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
+//        backLeftPower = backLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
+//        frontRightPower = frontRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
+//        backRightPower = backRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
+//
+//        // Set motor power
+//        drivetrain.frontLeftDriveMotor.setPower(frontLeftPower);
+//        drivetrain.backLeftDriveMotor.setPower(backLeftPower);
+//        drivetrain.frontRightDriveMotor.setPower(frontRightPower);
+//        drivetrain.backRightDriveMotor.setPower(backRightPower);
     }
 
     private void initDistSensors() {
