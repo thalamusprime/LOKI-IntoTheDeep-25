@@ -108,6 +108,17 @@ public class ForeArm extends OpMode {
 
     public void reach(Gamepad gpad) {
         gamepad1 = gpad;
+        if (gamepad1.right_bumper && gamepad1.dpad_down) {
+            this.drive(-0.75);
+        }  else if (gamepad1.right_bumper && gamepad1.dpad_up) {
+            this.drive(0.75);
+        }  else if (gamepad1.left_bumper && gamepad1.dpad_up) {
+            this.runArmUntil(this.liftWristHigh);
+        }  else if (gamepad1.left_bumper && gamepad1.dpad_down) {
+            this.runArmUntil(this.liftWristLow);
+        } else {
+            this.drive(0);
+        }
     }
 
     public int getTargetPosition() {

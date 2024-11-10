@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Encoders {
+public class DriveEncoders {
     public DcMotor encoderLeft, encoderBack, encoderRight;
     public double encLeftValue, encBackValue, encRightValue;
 

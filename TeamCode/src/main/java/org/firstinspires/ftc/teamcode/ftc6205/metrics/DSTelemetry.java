@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.ftc6205.metrics;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 
 //@TeleOp
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 public class DSTelemetry {
     Telemetry telemetry;
 
-    Encoders encoders = new Encoders();
+    DriveEncoders driveEncoders = new DriveEncoders();
 
     String tag4_x = "";
     String tag4_y = "";
@@ -32,15 +32,15 @@ public class DSTelemetry {
     // Send telemetry data
     public void sendTelemetry(
             Telemetry telemetry,
-            Encoders encoders,
+            DriveEncoders driveEncoders,
             FieldSense fieldSenseArm
     ) throws InterruptedException {
 
         telemetry.addLine(String.format(
                 "ENCODER L|B|R %5.2f %5.2f %5.2f",
-                encoders.encLeftValue * 0.003, // 0.0075
-                encoders.encBackValue * 0.003,
-                encoders.encRightValue * 0.003
+                driveEncoders.encLeftValue * 0.003, // 0.0075
+                driveEncoders.encBackValue * 0.003,
+                driveEncoders.encRightValue * 0.003
         ));
         telemetry.addLine(String.valueOf(fieldSenseArm.touchValue));
 

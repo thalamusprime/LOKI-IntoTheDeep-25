@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.Encoders;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -36,7 +36,7 @@ public class LOKI_OPS extends LinearOpMode {
     // Subsystems
     FtcDashboard dashboard;
     DSTelemetry dsTelemetry;
-    Encoders encoders;
+    DriveEncoders driveEncoders;
     Drivetrain drivetrain;
     Claw claw;
     FieldSense fieldSense;
@@ -108,25 +108,13 @@ public class LOKI_OPS extends LinearOpMode {
             }
 
             // REACH FOREARM reach
-            //foreArm.reach(gamepad1);
-
-            if (gamepad1.right_bumper && gamepad1.dpad_down) {
-                foreArm.drive(-0.75);
-            }  else if (gamepad1.right_bumper && gamepad1.dpad_up) {
-                foreArm.drive(0.75);
-            }  else if (gamepad1.left_bumper && gamepad1.dpad_up) {
-                foreArm.runArmUntil(foreArm.liftWristHigh);
-            }  else if (gamepad1.left_bumper && gamepad1.dpad_down) {
-                foreArm.runArmUntil(foreArm.liftWristLow);
-            } else {
-                foreArm.drive(0);
-            }
+            foreArm.reach(gamepad1);
 
             // RUN SUBSYSTEMS
             fieldSense.isPressed(); // arm touching floor?
-            encoders.runEncoders(); // drive encoders
+            driveEncoders.runEncoders(); // drive encoders
             this.runMain();         // todo imu.runTrueNorth | this.runResetEncoders | imu.runIMU | drivetrain.runBot
-            dsTelemetry.sendTelemetry(telemetry, encoders, fieldSense);    //telemetry
+            dsTelemetry.sendTelemetry(telemetry, driveEncoders, fieldSense);    //telemetry
         }
     }
 
@@ -142,8 +130,8 @@ public class LOKI_OPS extends LinearOpMode {
 
     private void initActuators() {
         // Deadwheel encoders, declare BEFORE drive motor declaration or drive motors won't reg.
-        encoders = new Encoders();
-        encoders.init(hardwareMap);
+        driveEncoders = new DriveEncoders();
+        driveEncoders.init(hardwareMap);
         // Drivetrain motors
         drivetrain = new Drivetrain();
         drivetrain.init(hardwareMap);
@@ -183,7 +171,7 @@ public class LOKI_OPS extends LinearOpMode {
         }
         if (gamepad1.options) {
             shortArm.initArm(hardwareMap);
-            encoders.init(hardwareMap);
+            driveEncoders.init(hardwareMap);
             drivetrain.init(hardwareMap);
         }
 
@@ -217,26 +205,8 @@ public class LOKI_OPS extends LinearOpMode {
         }
         rotX = rotX * 1.1;  // Counteract imperfect strafing
 
-        // TODO split driveBot
         drivetrain.runBot(gamepad1, rotY, rotX, rz);
-        // Denominator (absolute value) or 1, at least one is out of the range [-1, 1]
-//        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rz), 1);
-//        double frontLeftPower = (rotY + rotX + rz) / denominator;
-//        double backLeftPower = (rotY - rotX + rz) / denominator;
-//        double frontRightPower = (rotY - rotX - rz) / denominator;
-//        double backRightPower = (rotY + rotX - rz) / denominator;
-//
-//        // Trigger gain
-//        frontLeftPower = frontLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
-//        backLeftPower = backLeftPower * (0.3 + 0.7 * gamepad1.right_trigger);
-//        frontRightPower = frontRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
-//        backRightPower = backRightPower * (0.3 + 0.7 * gamepad1.right_trigger);
-//
-//        // Set motor power
-//        drivetrain.frontLeftDriveMotor.setPower(frontLeftPower);
-//        drivetrain.backLeftDriveMotor.setPower(backLeftPower);
-//        drivetrain.frontRightDriveMotor.setPower(frontRightPower);
-//        drivetrain.backRightDriveMotor.setPower(backRightPower);
+
     }
 
     private void initDistSensors() {

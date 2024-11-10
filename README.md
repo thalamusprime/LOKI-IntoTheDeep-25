@@ -1567,5 +1567,5 @@ Changes include:
    - Teams can use the LinearOpMode mode to create a linear (not event driven) program model.
    - Teams can use blocking statements like Thread.sleep() within a linear OpMode.
  * The API for the Legacy Module and Core Device Interface Module have been updated.
-   - Support for encoders with the Legacy Module is now working.
+   - Support for driveEncoders with the Legacy Module is now working.
  * The hardware loop has been updated for better performance.
