@@ -139,7 +139,7 @@ public class LOKI_OPS extends LinearOpMode {
             rz = 0;
             // PID Controller
             TrueNorth pidControl = new TrueNorth();
-            pidOutput = pidControl.PIDControl(refHeading, botHeading);
+            pidOutput = pidControl.TwistControl(refHeading, botHeading);
             if (Math.abs(pidOutput) > 0.02) {
                 rz = pidOutput;
             }

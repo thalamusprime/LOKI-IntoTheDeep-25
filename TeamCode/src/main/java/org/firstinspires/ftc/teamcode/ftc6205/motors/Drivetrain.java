@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 
 public class Drivetrain {
     public DcMotor frontLeftDriveMotor;
@@ -65,11 +66,16 @@ public class Drivetrain {
         backRightDriveMotor.setPower(backRightPower);
     }
 
-    public void autoForward(double power){
+    public void autoForward(double power){//;//, DriveEncoders driveEncoders, int leftTarget, int rightTarget){
+//        double forwardTicks = 0;
+//        double leftValue = driveEncoders.encLeftValue;
+//        double rightValue = driveEncoders.encRightValue;
+//        double pid = pidController.calculate(current_position, leftValue);
+
         double frontLeftPower = -power;
         double backLeftPower = -power;
-        double frontRightPower = power;
-        double backRightPower = power;
+        double frontRightPower = -power;
+        double backRightPower = -power;
         frontLeftDriveMotor.setPower(frontLeftPower);
         backLeftDriveMotor.setPower(backLeftPower);
         frontRightDriveMotor.setPower(frontRightPower);
@@ -77,8 +83,8 @@ public class Drivetrain {
     }
     public void autoStrafe(double power){
         double frontLeftPower = power;
-        double backLeftPower = power;
-        double frontRightPower = power;
+        double backLeftPower = -power;
+        double frontRightPower = -power;
         double backRightPower = power;
         frontLeftDriveMotor.setPower(frontLeftPower);
         backLeftDriveMotor.setPower(backLeftPower);

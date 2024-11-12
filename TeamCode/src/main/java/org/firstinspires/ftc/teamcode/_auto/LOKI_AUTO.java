@@ -1,21 +1,17 @@
 package org.firstinspires.ftc.teamcode._auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.ftc6205.constants.DrivePIDConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.DistSensors;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
@@ -23,19 +19,26 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 
+@Config
 @Autonomous(name = "AUTO-LOKI", group = "6205")
 public class LOKI_AUTO extends LinearOpMode {
     // Subsystems
-    //FtcDashboard dashboard;
-    //DSTelemetry dsTelemetry;
+    FtcDashboard dashboard;
+    DSTelemetry dsTelemetry;
     DriveEncoders driveEncoders;
     Drivetrain drivetrain;
     PIDController pidController;
+    FieldSense fieldSense;
     MicroNavX navx;
-    public static double p = 1;
+    public static double p = 0.9;
     public static double i = 0;
-    public static double d = 0.01;
-    public static double f = 0.005;
+    public static double d = 0.05;
+    public static double f = 0.1;
+//    public static double p = DrivePIDConstants.Kp;
+//    public static double i = DrivePIDConstants.Ki;
+//    public static double d = DrivePIDConstants.Kd;
+//    public static double f = DrivePIDConstants.Kf;
+    public static int targetInches = 24;
     //DistSensors distSensors;
 
     /////////////////////////////////////////////////////////// to be classed
@@ -51,7 +54,7 @@ public class LOKI_AUTO extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize subsystems
-//        this.initMonitoring();
+        this.initMonitoring();
         this.initActuators();
         this.initSensors();
 
@@ -61,31 +64,34 @@ public class LOKI_AUTO extends LinearOpMode {
         /////////////////////////////////////////////////////////////// TELEOP LOOP
         while (opModeIsActive()) {
             // RUN SUBSYSTEMS
-//            fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
-//            claw.grab(gamepad1);            // GRAB CLAW
-//            shortArm.rotate(gamepad1);      // ROTATE SHORTARM
-//            longArm.raise(gamepad1);        // RAISE LONGARM
-//            foreArm.reach(gamepad1);        // REACH FOREARM reach
+            fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
             driveEncoders.runEncoders();    // READ DRIVEENCODERS
-//            this.resetCheck();              // RESET TrueNorth | Encoders
+            this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
             this.runFieldCentric();         //
             drivetrain.runBot(gamepad1, rotY, rotX, rz);
+
+            if (gamepad1.square) {
+                //this.runForwardUntil(targetInches);
+                this.runStrafeUntil(targetInches);
+            }
 //            dsTelemetry.sendTelemetry(  telemetry,
 //                                        driveEncoders,
 //                                        fieldSense
 //            );
+            telemetry.update();
         }
     }
 
     // TODO create Monitor
-//    private void initMonitoring() {
-//        // FtcDashboard
-//        dashboard = FtcDashboard.getInstance();
-//        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-//        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
-//        dsTelemetry = new DSTelemetry();
-//    }
+    private void initMonitoring() {
+        // FtcDashboard
+        dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        //dsTelemetry = new DSTelemetry();
+
+    }
 
     private void initActuators() {
         // Deadwheel encoders, declare BEFORE drive motor declaration or drive motors won't reg.
@@ -96,12 +102,25 @@ public class LOKI_AUTO extends LinearOpMode {
         drivetrain.initDriveMotors(hardwareMap);
     }
     private void initSensors() throws InterruptedException {
+        pidController = new PIDController(p,i,d);
         // microNavX
         navx = new MicroNavX();
         navx.initIMU(hardwareMap);
-        pidController = new PIDController(p,i,d);
+        fieldSense = new FieldSense();
+        fieldSense.init(hardwareMap);
     }
-
+    private void resetCheck() {
+        // Get yaw, reset in match optional
+        if (gamepad1.start) {
+            refHeading = 0;
+            botHeading = 0;
+            navx.resetYaw();
+        }
+        if (gamepad1.options) {
+            driveEncoders.init(hardwareMap);
+            drivetrain.initDriveMotors(hardwareMap);
+        }
+    }
     private void runTrueNorth() {
         // Get XY: gamepad1
         y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -115,7 +134,7 @@ public class LOKI_AUTO extends LinearOpMode {
             rz = 0;
             // PID Controller
             TrueNorth pidControl = new TrueNorth();
-            pidOutput = pidControl.PIDControl(refHeading, botHeading);
+            pidOutput = pidControl.TwistControl(refHeading, botHeading);
             if (Math.abs(pidOutput) > 0.02) {
                 rz = pidOutput;
             }
@@ -137,20 +156,81 @@ public class LOKI_AUTO extends LinearOpMode {
         rotX = rotX * 1.1;  // Counteract imperfect strafing
     }
 
-    public void runForwardUntil(int forwardTarget) {
-        int forwardValue = (driveEncoders.encoderLeft.getCurrentPosition() +
-                driveEncoders.encoderLeft.getCurrentPosition() ) / 2;
-        if ( Math.abs(forwardTarget - forwardValue) >= 2 ) {
-            TrueNorth pidControl = new TrueNorth();
-            int current_position = forwardValue;
+    public void runForwardUntil(double forwardTarget) {
+        double power = 0;
+        double forwardValue = (driveEncoders.encLeftValue +
+                driveEncoders.encRightValue) / 2;
+        if (Math.abs(forwardTarget - forwardValue) >= 1) {
+            //TrueNorth pidControl = new TrueNorth();
+            double current_position = forwardValue;
             double pid = pidController.calculate(current_position, forwardTarget);
             double ff = Math.cos(Math.toRadians(forwardTarget / LongArm.ticks_in_degree)) *
                     f;
-            double power = pid * ff;
-            drivetrain.autoForward(power);
+            power = pid * ff;
+            drivetrain.autoForward(power);//,
+//                    driveEncoders,
+//                    driveEncoders.encLeftValue,
+//                    driveEncoders.encRightValue);
+
         } else {
-            drivetrain.autoForward(0);;
+            drivetrain.autoForward(0);
+            ;
         }
+        telemetry.addLine(String.format(
+                "Target: %5.2f",
+                forwardTarget
+        ));
+        telemetry.addLine(String.format(
+                "Value %5.2f",
+                forwardValue // 0.0075
+        ));
+        telemetry.addLine(String.format(
+                "Power %5.2f",
+                power
+        ));
+        telemetry.addLine(String.format(
+                "ENCODER L|B|R %5.2f %5.2f %5.2f",
+                driveEncoders.encLeftValue, // 0.0075
+                driveEncoders.encBackValue,
+                driveEncoders.encRightValue
+        ));
+    }
+    public void runStrafeUntil(double sideTarget) {
+        double power = 0;
+        double forwardTicks = 0;
+        double sideValue = (driveEncoders.encBackValue) / 2;
+        if (Math.abs(sideTarget - sideValue) >= 1) {
+            //TrueNorth pidControl = new TrueNorth();
+            double current_position = sideValue;
+            double pid = pidController.calculate(current_position, sideTarget);
+            double ff = Math.cos(Math.toRadians(sideTarget / LongArm.ticks_in_degree)) *
+                    f;
+            power = pid * ff;
+            drivetrain.autoStrafe(power);
+
+        } else {
+            drivetrain.autoStrafe(0);
+            ;
+        }
+        telemetry.addLine(String.format(
+                "Target: %5.2f",
+                sideTarget
+        ));
+        telemetry.addLine(String.format(
+                "Value %5.2f",
+                sideValue // 0.0075
+        ));
+        telemetry.addLine(String.format(
+                "Power %5.2f",
+                power
+        ));
+        telemetry.addLine(String.format(
+                "ENCODER L|B|R %5.2f %5.2f %5.2f",
+                driveEncoders.encLeftValue, // 0.0075
+                driveEncoders.encBackValue,
+                driveEncoders.encRightValue
+        ));
+        //telemetry.update();
     }
 
 }

@@ -38,9 +38,9 @@ public class DSTelemetry {
 
         telemetry.addLine(String.format(
                 "ENCODER L|B|R %5.2f %5.2f %5.2f",
-                driveEncoders.encLeftValue * 0.003, // 0.0075
-                driveEncoders.encBackValue * 0.003,
-                driveEncoders.encRightValue * 0.003
+                driveEncoders.encLeftValue, // 0.0075
+                driveEncoders.encBackValue,
+                driveEncoders.encRightValue
         ));
         telemetry.addLine(String.valueOf(fieldSenseArm.touchValue));
 

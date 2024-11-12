@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.ftc6205.constants.AUTOConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
 
 public class Claw {
     Servo claw;

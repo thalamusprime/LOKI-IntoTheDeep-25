@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205.constants;
+package org.firstinspires.ftc.teamcode.ftc6205.globals;
 import com.acmerobotics.dashboard.config.Config;
 
 @Config

@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.ftc6205.sensors;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@Config
 public class DriveEncoders {
     public DcMotor encoderLeft, encoderBack, encoderRight;
     public double encLeftValue, encBackValue, encRightValue;
-
+    public static double tickToInches = 0.00285;
     HardwareMap hwMap;
 
     public void init(HardwareMap ahwMap) {
@@ -29,9 +30,9 @@ public class DriveEncoders {
 
     public void runEncoders() throws InterruptedException {
         // Get current encoder position
-        encLeftValue = encoderLeft.getCurrentPosition();
-        encBackValue = encoderBack.getCurrentPosition();
-        encRightValue = encoderRight.getCurrentPosition();
+        encLeftValue = encoderLeft.getCurrentPosition() * tickToInches;
+        encBackValue = encoderBack.getCurrentPosition() * tickToInches;
+        encRightValue = encoderRight.getCurrentPosition() * tickToInches;
     }
 
 }
