@@ -25,7 +25,7 @@ public class MicroNavX {
         navx.resetYaw();
     }
 
-    public double getRobotYawPitchRollAngles() {
+    public double getYawInDegrees() {
         return navx.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 }

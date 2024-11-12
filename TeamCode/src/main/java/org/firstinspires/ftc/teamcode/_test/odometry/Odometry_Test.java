@@ -8,11 +8,10 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
 
 /**
      * This sample shows how to use dead wheels with external encoders
@@ -48,47 +47,23 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
         private Encoder leftOdometer, rightOdometer, centerOdometer;
         private HolonomicOdometry odometry;
         private IMU imu;
-
+        MicroNavX navx;
         @Override
         public void runOpMode() throws InterruptedException {
-            // Retrieve and initialize the IMU.
-            imu = hardwareMap.get(IMU.class, "imu");
-
-            // Define how the hub is mounted on the robot to get the correct Yaw, Pitch and Roll values.
-            RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-            RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
-
-            RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-
-            // Initialize the IMU with this mounting orientation
-            imu.initialize(new IMU.Parameters(orientationOnRobot));
-
-
+            navx = new MicroNavX();
+            navx.initIMU(hardwareMap);
             // Drive motors
             frontLeft = new MotorEx(hardwareMap, "frontleft");
             frontRight = new MotorEx(hardwareMap, "frontright");
             backLeft = new MotorEx(hardwareMap, "backleft");
             backRight = new MotorEx(hardwareMap, "backright");
-
             driveTrain = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
-
-            //intakeLeft = new Motor(hardwareMap, "intake_left");
-            //intakeRight = new Motor(hardwareMap, "intake_right");
-            //liftLeft = new Motor(hardwareMap, "lift_left");
-            //liftRight = new Motor(hardwareMap, "lift_right");
-            //double y = gamepad1.y;
-            driveTrain.driveFieldCentric(gamepad1.left_stick_x,
-                                         gamepad1.left_stick_y,
-                                         gamepad1.right_stick_x,
-                                         imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
-                                         true);
 
             // Here we set the distance per pulse of the odometers.
             // This is to keep the units consistent for the odometry.
             leftOdometer = frontLeft.encoder.setDistancePerPulse(DISTANCE_PER_PULSE);
             rightOdometer = frontRight.encoder.setDistancePerPulse(DISTANCE_PER_PULSE);
             centerOdometer = backLeft.encoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-
             rightOdometer.setDirection(Motor.Direction.REVERSE);
 
             odometry = new HolonomicOdometry(
@@ -107,29 +82,42 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
             waitForStart();
 
             while (opModeIsActive() && !isStopRequested()) {
+                if (gamepad1.options) {
+                    navx.resetYaw();
+                    leftOdometer.reset();
+                    centerOdometer.reset();
+                    rightOdometer.reset();
+                }
+
                 float triggerSpeed = gamepad1.right_trigger;
-                driveTrain.driveFieldCentric(-gamepad1.left_stick_x * (0.3 + triggerSpeed * 0.7),
+                driveTrain.driveFieldCentric(
+                        -gamepad1.left_stick_x * (0.3 + triggerSpeed * 0.7),
                         gamepad1.left_stick_y * (0.3 + triggerSpeed * 0.7),
                         -gamepad1.right_stick_x * (0.3 + triggerSpeed * 0.7),
-                        imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
-                        false);
+                        navx.getYawInDegrees(),
+                        false
+                );
 
                 odometry.updatePose(); // update the position
                 PositionTracker.robotPose = odometry.getPose();
 
                 telemetry.addLine(String.format(
                         "DISTANCE  %5.2f %5.2f %5.2f",
-                        leftOdometer.getDistance()* 0.003,// * 0.003, // 0.0075
-                        centerOdometer.getDistance()* 0.003,// * 0.003,
-                        rightOdometer.getDistance()* 0.003 //* 0.003
+                        leftOdometer.getDistance(),// * 0.003, // 0.0075
+                        centerOdometer.getDistance(),// * 0.003,
+                        rightOdometer.getDistance() //* 0.003
                 ));
 
                 telemetry.addLine(String.format(
-                        "POSITION  %5d %5d %5d",
-                        leftOdometer.getPosition(),// * 0.003, // 0.0075
-                        centerOdometer.getPosition(),// * 0.003,
-                        rightOdometer.getPosition() //* 0.003
+                        "POSITION  %3d",
+                        navx.getYawInDegrees()
                 ));
+//                telemetry.addLine(String.format(
+//                        "POSITION  %5d %5d %5d",
+//                        leftOdometer.getPosition(),// * 0.003, // 0.0075
+//                        centerOdometer.getPosition(),// * 0.003,
+//                        rightOdometer.getPosition() //* 0.003
+//                ));
                 telemetry.update();
             }
         }

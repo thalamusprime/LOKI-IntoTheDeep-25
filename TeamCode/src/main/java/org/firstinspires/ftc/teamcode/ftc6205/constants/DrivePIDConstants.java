@@ -8,7 +8,8 @@ public class DrivePIDConstants {
     public static double Kd = 0;   // Derivative gain
 
     // Distance
-    //public static double Kp_d = 1;  // Proportional gain
-    //public static double Ki_d = 1;   // Integral gain ( KEEP THIS 0 )
-    //public static double Kd_d = 0.0;   // Derivative gain
+    public static double Kp_d = 1;  // Proportional gain
+    public static double Ki_d = 0;   // Integral gain ( KEEP THIS 0 )
+    public static double Kd_d = 0.0;   // Derivative gain
+    public static double Kf_d = 0.0;   // Derivative gain
 }

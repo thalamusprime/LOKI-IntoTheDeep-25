@@ -20,7 +20,7 @@ public class TrueNorth {
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
-    private BNO055IMU imu;
+    //private BNO055IMU imu;
 
     public double PIDControl(double reference, double state) {
         double error = angleWrap(reference - state);
@@ -42,6 +42,7 @@ public class TrueNorth {
         double output = (error * Kp) + (derivative * Kd) + (integralSum * Ki);
         return output;
     }
+
     private double angleWrap(double radians){
         while(radians > Math.PI){
             radians -= 2 * Math.PI;
@@ -51,4 +52,5 @@ public class TrueNorth {
         }
         return radians;
     }
+
 }

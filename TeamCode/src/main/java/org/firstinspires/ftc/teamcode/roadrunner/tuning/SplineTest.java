@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
-@TeleOp(name = "SplineTest", group = "TEST")
+@TeleOp(name = "RR - SplineTest", group = "TEST")
 @Disabled
 public final class SplineTest extends LinearOpMode {
     @Override

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
-@TeleOp(name = "LocalizationTest", group = "TEST")
+@TeleOp(name = "RR - LocalizationTest", group = "TEST")
 @Disabled
 public class LocalizationTest extends LinearOpMode {
     @Override

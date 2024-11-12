@@ -31,7 +31,6 @@ import org.firstinspires.ftc.teamcode.roadrunner.TwoDeadWheelLocalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-//@TeleOp(name = "TuningOpModes", group = "TEST")
 public final class TuningOpModes {
     // TODO: change this to TankDrive.class if you're using tank
     public static final Class<?> DRIVE_CLASS = MecanumDrive.class;

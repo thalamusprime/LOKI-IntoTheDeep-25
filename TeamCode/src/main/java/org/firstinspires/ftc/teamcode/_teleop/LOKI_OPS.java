@@ -70,8 +70,9 @@ public class LOKI_OPS extends LinearOpMode {
             longArm.raise(gamepad1);        // RAISE LONGARM
             foreArm.reach(gamepad1);        // REACH FOREARM reach
             driveEncoders.runEncoders();    // READ DRIVEENCODERS
-            this.resetCheck();              // RESET TrueNorth | encoders
-            this.runFieldCentric();
+            this.resetCheck();              // RESET TrueNorth | Encoders
+            this.runTrueNorth();            // PID Straight
+            this.runFieldCentric();         //
             drivetrain.runBot(gamepad1, rotY, rotX, rz);
 
             dsTelemetry.sendTelemetry(  telemetry,
@@ -96,7 +97,7 @@ public class LOKI_OPS extends LinearOpMode {
         driveEncoders.init(hardwareMap);
         // Drivetrain motors
         drivetrain = new Drivetrain();
-        drivetrain.init(hardwareMap);
+        drivetrain.initDriveMotors(hardwareMap);
         // Claw
         claw = new Claw();
         claw.init(hardwareMap);
@@ -121,30 +122,34 @@ public class LOKI_OPS extends LinearOpMode {
         if (gamepad1.options) {
             shortArm.initArm(hardwareMap);
             driveEncoders.init(hardwareMap);
-            drivetrain.init(hardwareMap);
+            drivetrain.initDriveMotors(hardwareMap);
         }
-
     }
 
-    private void runFieldCentric() {
+    private void runTrueNorth() {
+        // Get XY: gamepad1
         y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         x = -gamepad1.left_stick_x; //-
 
         // Get Z: gamepad1
         if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
             rz = -gamepad1.right_stick_x;
-            refHeading = navx.getRobotYawPitchRollAngles();//.getYaw(AngleUnit.RADIANS); // ref
+            refHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // ref
         } else {
             rz = 0;
             // PID Controller
             TrueNorth pidControl = new TrueNorth();
             pidOutput = pidControl.PIDControl(refHeading, botHeading);
-            if (Math.abs(pidOutput) > 0.03) {
+            if (Math.abs(pidOutput) > 0.02) {
                 rz = pidOutput;
             }
         }
-        botHeading = navx.getRobotYawPitchRollAngles();//.getYaw(AngleUnit.RADIANS); // bot
+    }
 
+    private void runFieldCentric() {
+        botHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // bot
+
+        // Field-centric drive, Robot-centric default
         if (gamepad1.left_bumper) {
             rotX = x;
             rotY = y;
