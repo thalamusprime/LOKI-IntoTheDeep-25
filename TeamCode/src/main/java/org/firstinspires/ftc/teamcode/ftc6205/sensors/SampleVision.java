@@ -22,7 +22,7 @@ import java.util.List;
 
 @TeleOp(name = "TEST - Cube Vision", group = "TEST")
 @Disabled
-public class CubeVision extends LinearOpMode {
+public class SampleVision extends LinearOpMode {
     HardwareMap hMap;
 
     double cX = 0;

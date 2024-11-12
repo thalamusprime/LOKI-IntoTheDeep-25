@@ -71,8 +71,6 @@ public class PixelVision extends LinearOpMode {
 
         // Use OpenCvCameraFactory class from FTC SDK to create camera instance
         controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
-                //TODO: Friday Night
-                //hardwareMap.get(WebcamName.class, "Webcam 2"),
                 hardwareMap.get(WebcamName.class, "Webcam 1"),
                 cameraMonitorViewId);
 

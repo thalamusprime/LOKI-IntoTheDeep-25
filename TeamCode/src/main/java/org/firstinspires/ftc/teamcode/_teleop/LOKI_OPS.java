@@ -5,25 +5,23 @@ import android.util.Size;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-import org.firstinspires.ftc.teamcode.ftc6205.metrics.DSTelemetry;
+import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
-import org.firstinspires.ftc.teamcode.ftc6205.pidcontrol.TrueNorth;
+import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.DistSensors;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -40,13 +38,13 @@ public class LOKI_OPS extends LinearOpMode {
     ShortArm shortArm;
     LongArm longArm;
     ForeArm foreArm;
+    MicroNavX navx;
+    DistSensors distSensors;
 
-    ///////////////////////////////////////////////////////////
-    DistanceSensor distFront, distBack;
-    Servo pixelThumb;
-    IMU imu;
+    /////////////////////////////////////////////////////////// to be classed
+    Servo wrist;
     OpenCvCamera controlHubCam;
-    AprilTagProcessor tagProcessor;
+    AprilTagProcessor aprilTagProcessor;
     VisionPortal visionPortal;
 
     // Global variables
@@ -78,7 +76,8 @@ public class LOKI_OPS extends LinearOpMode {
 
             dsTelemetry.sendTelemetry(  telemetry,
                                         driveEncoders,
-                                        fieldSense);    //telemetry
+                                        fieldSense
+            );
         }
     }
 
@@ -110,19 +109,14 @@ public class LOKI_OPS extends LinearOpMode {
         // ForeArm
         foreArm = new ForeArm();
         foreArm.initForeArm(hardwareMap);
-
-        // Touch sensor on wrist
-        fieldSense = new FieldSense();
-        fieldSense.init(hardwareMap);
     }
 
     private void resetCheck() {
-        // todo reset TrueNorth | motor encoders
         // Get yaw, reset in match optional
         if (gamepad1.start) {
             refHeading = 0;
             botHeading = 0;
-            imu.resetYaw();
+            navx.resetYaw();
         }
         if (gamepad1.options) {
             shortArm.initArm(hardwareMap);
@@ -139,7 +133,7 @@ public class LOKI_OPS extends LinearOpMode {
         // Get Z: gamepad1
         if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
             rz = -gamepad1.right_stick_x;
-            refHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // ref
+            refHeading = navx.getRobotYawPitchRollAngles();//.getYaw(AngleUnit.RADIANS); // ref
         } else {
             rz = 0;
             // PID Controller
@@ -149,7 +143,7 @@ public class LOKI_OPS extends LinearOpMode {
                 rz = pidOutput;
             }
         }
-        botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS); // bot
+        botHeading = navx.getRobotYawPitchRollAngles();//.getYaw(AngleUnit.RADIANS); // bot
 
         if (gamepad1.left_bumper) {
             rotX = x;
@@ -163,29 +157,21 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void initSensors() throws InterruptedException {
-        // SENSORS
-        initIMU();
-        initDistSensors();
+        // microNavX
+        navx = new MicroNavX();
+        navx.initIMU(hardwareMap);
+        // Touch sensor on wrist
+        fieldSense = new FieldSense();
+        fieldSense.init(hardwareMap);
+        // Distance Sensors
+        distSensors = new DistSensors();
+        distSensors.initDistSensors(hardwareMap);
+
         initAprilTag();
         initVision();
     }
 
-    // todo create DistSensors.front|back
-    private void initDistSensors() {
-        distFront = hardwareMap.get(DistanceSensor.class, "distFront");
-        distBack = hardwareMap.get(DistanceSensor.class, "distBack");
-    }
-
     // todo create IMU
-    private void initIMU() {
-        // Retrieve the IMU from the hardware map
-        imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT)); //FORWARD
-        imu.initialize(parameters);
-    }
 
     // todo create WRIST
 //    private void initServos() throws InterruptedException {
@@ -197,7 +183,7 @@ public class LOKI_OPS extends LinearOpMode {
     // todo create AprilTag
     private void initAprilTag() {
         // Tag Processing
-        tagProcessor = new AprilTagProcessor.Builder()
+        aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setDrawTagID(true)
@@ -209,7 +195,7 @@ public class LOKI_OPS extends LinearOpMode {
     private void initVision() {
         // VisionPortal
         visionPortal = new VisionPortal.Builder()
-                .addProcessor(tagProcessor)
+                .addProcessor(aprilTagProcessor)
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(1920, 1080))
                 .build();

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ftc6205.pidcontrol;
+package org.firstinspires.ftc.teamcode.ftc6205.controllers;
 
 //import com.acmerobotics.dashboard.FtcDashboard;
 //import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
