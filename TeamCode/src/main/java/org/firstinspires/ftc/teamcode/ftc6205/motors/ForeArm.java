@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import java.util.Timer;
 
 @Config
-@TeleOp(name = "CONFIG - Lift Wrist", group = "CONFIG")
+@TeleOp(name = "CONFIG - ForeArm", group = "CONFIG")
 public class ForeArm extends OpMode {
     public PIDController armController;
     public static double p = 1;

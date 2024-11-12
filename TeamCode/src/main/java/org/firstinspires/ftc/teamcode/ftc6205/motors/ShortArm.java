@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import java.util.Timer;
 
 @Config
-@TeleOp(name = "CONFIG - Pixel Arm", group = "CONFIG")
+@TeleOp(name = "CONFIG - Short Arm", group = "CONFIG")
 @Disabled
 public class ShortArm extends OpMode {
     public PIDController armController;

@@ -16,7 +16,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import java.util.Timer;
 
 @Config
-@TeleOp(name = "CONFIG - ForeArm", group = "CONFIG")
+@TeleOp(name = "CONFIG - LongArm", group = "CONFIG")
 public class LongArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
