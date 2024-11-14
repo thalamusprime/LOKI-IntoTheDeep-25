@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.ftc6205.motors;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
 
 public class Claw {
@@ -20,7 +19,11 @@ public class Claw {
 
     public void grab(Gamepad gpad) {
         gpad1 = gpad;
-        if (gpad1.right_bumper) {
+        if (    (gpad1.right_bumper) ||
+                (gpad1.right_bumper  && gpad1.dpad_up) ||
+                (gpad1.right_bumper  && gpad1.dpad_down)
+            )
+        {
             claw.setPosition(AUTOConstants.claw_release);
         } else {
             claw.setPosition(AUTOConstants.claw_pinch);

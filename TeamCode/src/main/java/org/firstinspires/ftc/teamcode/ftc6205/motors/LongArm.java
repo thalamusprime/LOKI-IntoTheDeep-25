@@ -74,9 +74,9 @@ public class LongArm extends OpMode {
 
     public void raise(Gamepad gpad) {
         gpad1 = gpad;
-        if (gpad1.right_bumper && gpad1.dpad_left) {
+        if (gpad1.left_bumper && gpad1.right_bumper && gpad1.dpad_left) {
             this.drive(0.2);
-        }  else if (gpad1.right_bumper && gpad1.dpad_right) {
+        }  else if (gpad1.left_bumper && gpad1.right_bumper && gpad1.dpad_right) {
             this.drive(-0.2);
         }  else if (gpad1.left_bumper && gpad1.dpad_left) {
             this.runArmUntil(this.liftArmHigh);

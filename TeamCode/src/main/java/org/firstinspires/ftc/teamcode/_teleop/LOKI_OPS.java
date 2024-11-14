@@ -58,7 +58,8 @@ public class LOKI_OPS extends LinearOpMode {
         this.initActuators();
         this.initSensors();
 
-        waitForStart();                     // Pause until "PLAY".  Close program if "Stop".
+        waitForStart();
+        // Pause until "PLAY".  Close program if "Stop".
         if (isStopRequested()) return;
 
         /////////////////////////////////////////////////////////////// TELEOP LOOP
@@ -131,7 +132,7 @@ public class LOKI_OPS extends LinearOpMode {
         y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         x = -gamepad1.left_stick_x; //-
 
-        // Get Z: gamepad1
+        // Get  Z: gamepad1
         if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
             rz = -gamepad1.right_stick_x;
             refHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // ref
@@ -147,7 +148,7 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void runFieldCentric() {
-        botHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // bot
+        botHeading = navx.getYawInDegrees();
 
         // Field-centric drive, Robot-centric default
         if (gamepad1.left_bumper) {
@@ -175,8 +176,6 @@ public class LOKI_OPS extends LinearOpMode {
         initAprilTag();
         initVision();
     }
-
-    // todo create IMU
 
     // todo create WRIST
 //    private void initServos() throws InterruptedException {

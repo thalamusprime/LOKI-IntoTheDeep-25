@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.Motor.Encoder;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -22,7 +21,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
      */
     @Autonomous(name = "TEST - Odometry", group = "TEST")
     //@Disabled
-    public class Odometry_Test  extends LinearOpMode {
+    public class Test_Odometry extends LinearOpMode {
 
         // The lateral distance between the left and right odometers
         // is called the trackwidth. This is very important for

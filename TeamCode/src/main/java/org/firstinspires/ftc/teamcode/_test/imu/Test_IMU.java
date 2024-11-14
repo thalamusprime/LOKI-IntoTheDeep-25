@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @TeleOp(name = "TEST - IMU Orthogonal", group = "TEST")
 @Disabled   // Comment this out to add to the OpMode list
-public class IMU_Test extends LinearOpMode {
+public class Test_IMU extends LinearOpMode {
     // The IMU sensor object
     IMU imu;
 

@@ -134,9 +134,9 @@ public class ShortArm extends OpMode {
     public void rotate(Gamepad gpad) {
         gpad1 = gpad;
 
-        if (!gpad1.left_bumper && !gpad1.right_bumper && gpad1.dpad_down) {
+        if (!gpad1.left_bumper && gpad1.dpad_down) {
             this.rot(0.5);
-        }  else if (!gpad1.left_bumper && !gpad1.right_bumper && gpad1.dpad_up) {
+        }  else if (!gpad1.left_bumper && gpad1.dpad_up) {
             this.rot(-0.5);
         }  else if (gpad1.a) {
             this.rotArmUntil(this.armFloor);
@@ -145,7 +145,6 @@ public class ShortArm extends OpMode {
         }  else {
             this.rot(0);
         }
-
 
     }
 
