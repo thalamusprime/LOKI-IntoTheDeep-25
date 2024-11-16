@@ -111,12 +111,6 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
                         "POSITION  %3d",
                         navx.getYawInDegrees()
                 ));
-//                telemetry.addLine(String.format(
-//                        "POSITION  %5d %5d %5d",
-//                        leftOdometer.getPosition(),// * 0.003, // 0.0075
-//                        centerOdometer.getPosition(),// * 0.003,
-//                        rightOdometer.getPosition() //* 0.003
-//                ));
                 telemetry.update();
             }
         }
