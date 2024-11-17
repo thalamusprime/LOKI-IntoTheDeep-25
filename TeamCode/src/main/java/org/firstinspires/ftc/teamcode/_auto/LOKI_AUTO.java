@@ -98,8 +98,8 @@ public class LOKI_AUTO extends LinearOpMode {
         driveEncoders = new DriveEncoders();
         driveEncoders.init(hardwareMap);
         // Drivetrain motors
-        drivetrain = new Drivetrain();
-        drivetrain.initDriveMotors(hardwareMap);
+        drivetrain = new Drivetrain(hardwareMap);
+        //drivetrain.initDriveMotors(hardwareMap);
     }
     private void initSensors() throws InterruptedException {
         pidController = new PIDController(p,i,d);

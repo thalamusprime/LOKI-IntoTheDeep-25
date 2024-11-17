@@ -62,7 +62,7 @@ public class LOKI_OPS extends LinearOpMode {
         // Pause until "PLAY".  Close program if "Stop".
         if (isStopRequested()) return;
 
-        /////////////////////////////////////////////////////////////// TELEOP LOOP
+        // TELEOP LOOP
         while (opModeIsActive()) {
             // RUN SUBSYSTEMS
             fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
@@ -97,8 +97,8 @@ public class LOKI_OPS extends LinearOpMode {
         driveEncoders = new DriveEncoders();
         driveEncoders.init(hardwareMap);
         // Drivetrain motors
-        drivetrain = new Drivetrain();
-        drivetrain.initDriveMotors(hardwareMap);
+        drivetrain = new Drivetrain(hardwareMap);
+        //drivetrain.initDriveMotors(hardwareMap);
         // Claw
         claw = new Claw();
         claw.init(hardwareMap);
@@ -177,12 +177,12 @@ public class LOKI_OPS extends LinearOpMode {
         initVision();
     }
 
-    // todo create WRIST
-//    private void initServos() throws InterruptedException {
-//        //pixelThumb = hardwareMap.servo.get("pixelThumb");
-//        //pixelThumb.setDirection(Servo.Direction.REVERSE);
-//        //pixelThumb.setPosition(0.5);
-//    }
+    //todo create WRIST
+    private void initServos() throws InterruptedException {
+        //pixelThumb = hardwareMap.servo.get("pixelThumb");
+        //pixelThumb.setDirection(Servo.Direction.REVERSE);
+        //pixelThumb.setPosition(0.5);
+    }
 
     // todo create AprilTag
     private void initAprilTag() {

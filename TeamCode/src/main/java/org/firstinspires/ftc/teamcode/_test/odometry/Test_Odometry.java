@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode._test.odometry;
 
-
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.Motor.Encoder;
@@ -12,13 +11,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
 
-/**
-     * This sample shows how to use dead wheels with external encoders
-     * paired with motors that don't require encoders.
-     * In this sample, we will use the drive motors' encoder
-     * ports as they are not needed due to not using the drive encoders.
-     * The external encoders we are using are REV through-bore.
-     */
     @Autonomous(name = "TEST - Odometry", group = "TEST")
     //@Disabled
     public class Test_Odometry extends LinearOpMode {
