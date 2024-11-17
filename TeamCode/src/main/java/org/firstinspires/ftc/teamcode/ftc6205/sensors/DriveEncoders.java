@@ -11,7 +11,11 @@ public class DriveEncoders {
     public static double tickToInches = 0.00285;
     HardwareMap hwMap;
 
-    public void init(HardwareMap ahwMap) {
+    public DriveEncoders(HardwareMap ahwMap) {
+        initEncoders(ahwMap);
+    }
+
+    public void initEncoders(HardwareMap ahwMap) {
         hwMap = ahwMap;
         // Encoders
         encoderLeft = hwMap.dcMotor.get("frontleft");

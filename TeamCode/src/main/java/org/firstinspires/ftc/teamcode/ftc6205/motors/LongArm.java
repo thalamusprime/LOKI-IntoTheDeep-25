@@ -86,6 +86,11 @@ public class LongArm extends OpMode {
             this.drive(0);
         }
     }
+
+    public LongArm(HardwareMap ahwMap) {
+        initLongArm(ahwMap);
+    }
+
     public void initLongArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());

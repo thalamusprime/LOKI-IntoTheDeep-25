@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Wrist;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DistSensors;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
@@ -42,7 +43,7 @@ public class LOKI_OPS extends LinearOpMode {
     DistSensors distSensors;
 
     /////////////////////////////////////////////////////////// to be classed
-    Servo wrist;
+    Wrist wrist;
     OpenCvCamera controlHubCam;
     AprilTagProcessor aprilTagProcessor;
     VisionPortal visionPortal;
@@ -92,25 +93,23 @@ public class LOKI_OPS extends LinearOpMode {
         dsTelemetry = new DSTelemetry();
     }
 
+    private void initSensors() throws InterruptedException {
+        navx = new MicroNavX(hardwareMap);
+        fieldSense = new FieldSense(hardwareMap);
+        distSensors = new DistSensors(hardwareMap);
+
+        initAprilTag();
+        initVision();
+    }
+
     private void initActuators() {
-        // Deadwheel encoders, declare BEFORE drive motor declaration or drive motors won't reg.
-        driveEncoders = new DriveEncoders();
-        driveEncoders.init(hardwareMap);
-        // Drivetrain motors
-        drivetrain = new Drivetrain(hardwareMap);
-        //drivetrain.initDriveMotors(hardwareMap);
-        // Claw
-        claw = new Claw();
-        claw.init(hardwareMap);
-        // ShortArm
-        shortArm = new ShortArm();
-        shortArm.initArm(hardwareMap);
-        // LongArm
-        longArm = new LongArm();
-        longArm.initLongArm(hardwareMap);
-        // ForeArm
-        foreArm = new ForeArm();
-        foreArm.initForeArm(hardwareMap);
+        driveEncoders = new DriveEncoders(hardwareMap); // Deadwheel encoders, declare b4 motors.
+        drivetrain = new Drivetrain(hardwareMap);       // Drivetrain motors
+        claw = new Claw(hardwareMap);
+        shortArm = new ShortArm(hardwareMap);
+        longArm = new LongArm(hardwareMap);
+        foreArm = new ForeArm(hardwareMap);
+        //wrist = new Wrist(hardwareMap);
     }
 
     private void resetCheck() {
@@ -122,7 +121,7 @@ public class LOKI_OPS extends LinearOpMode {
         }
         if (gamepad1.options) {
             shortArm.initArm(hardwareMap);
-            driveEncoders.init(hardwareMap);
+            driveEncoders.initEncoders(hardwareMap);
             drivetrain.initDriveMotors(hardwareMap);
         }
     }
@@ -162,27 +161,9 @@ public class LOKI_OPS extends LinearOpMode {
         rotX = rotX * 1.1;  // Counteract imperfect strafing
     }
 
-    private void initSensors() throws InterruptedException {
-        // microNavX
-        navx = new MicroNavX();
-        navx.initIMU(hardwareMap);
-        // Touch sensor on wrist
-        fieldSense = new FieldSense();
-        fieldSense.init(hardwareMap);
-        // Distance Sensors
-        distSensors = new DistSensors();
-        distSensors.initDistSensors(hardwareMap);
-
-        initAprilTag();
-        initVision();
-    }
 
     //todo create WRIST
-    private void initServos() throws InterruptedException {
-        //pixelThumb = hardwareMap.servo.get("pixelThumb");
-        //pixelThumb.setDirection(Servo.Direction.REVERSE);
-        //pixelThumb.setPosition(0.5);
-    }
+
 
     // todo create AprilTag
     private void initAprilTag() {

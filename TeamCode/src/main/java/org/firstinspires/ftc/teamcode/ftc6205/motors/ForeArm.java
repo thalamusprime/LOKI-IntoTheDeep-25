@@ -79,6 +79,10 @@ public class ForeArm extends OpMode {
         foreArm.setPower(power);
     }
 
+    public ForeArm(HardwareMap ahwMap){
+        initForeArm(ahwMap);
+    }
+
     public void initForeArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());

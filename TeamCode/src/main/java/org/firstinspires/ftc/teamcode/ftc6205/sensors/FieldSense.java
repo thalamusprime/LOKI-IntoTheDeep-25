@@ -14,7 +14,11 @@ public class FieldSense {
     HardwareMap hwMap;
     Gamepad gpad1;
 
-    public void init(HardwareMap ahwMap) {
+    public FieldSense(HardwareMap ahwMap){
+        initFieldSense(ahwMap);
+    }
+
+    public void initFieldSense(HardwareMap ahwMap) {
         hwMap = ahwMap;
         // Encoders
         touchARM = hwMap.touchSensor.get("touchArm");

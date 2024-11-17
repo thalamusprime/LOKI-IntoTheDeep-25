@@ -38,18 +38,8 @@ public class ShortArm extends OpMode {
     private HardwareMap hwMap;
     private Gamepad gpad1;
 
-    @Override
-    public void init() {
-
-        armController = new PIDController(p,i,d);
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        arm = hardwareMap.get(DcMotorEx.class, "arm");
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //timer = new Timing.Timer();
-        timer = new Timer();
+    public ShortArm(HardwareMap ahwMap) {
+        initArm(ahwMap);
     }
     public void initArm(HardwareMap ahwMap) {
         hwMap = ahwMap;
@@ -64,6 +54,22 @@ public class ShortArm extends OpMode {
         //timer = new Timing.Timer();
         timer = new Timer();
     }
+
+    @Override
+    public void init() {
+
+        armController = new PIDController(p,i,d);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //timer = new Timing.Timer();
+        timer = new Timer();
+    }
+
+
     @Override
     public void loop(){
         armController.setPID(p,i,d);

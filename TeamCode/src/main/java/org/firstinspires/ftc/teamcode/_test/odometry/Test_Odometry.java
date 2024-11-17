@@ -41,8 +41,8 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
         MicroNavX navx;
         @Override
         public void runOpMode() throws InterruptedException {
-            navx = new MicroNavX();
-            navx.initIMU(hardwareMap);
+            navx = new MicroNavX(hardwareMap);
+            //navx.initIMU(hardwareMap);
             // Drive motors
             frontLeft = new MotorEx(hardwareMap, "frontleft");
             frontRight = new MotorEx(hardwareMap, "frontright");

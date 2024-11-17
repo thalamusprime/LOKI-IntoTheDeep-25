@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.ftc6205.logging;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
@@ -9,9 +10,10 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 //@TeleOp
 @Disabled
 public class DSTelemetry {
+    HardwareMap ahwMap;
     Telemetry telemetry;
 
-    DriveEncoders driveEncoders = new DriveEncoders();
+    //DriveEncoders driveEncoders = new DriveEncoders(ahwMap);
 
     String tag4_x = "";
     String tag4_y = "";

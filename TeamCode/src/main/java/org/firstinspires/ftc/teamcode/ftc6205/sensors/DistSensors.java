@@ -7,6 +7,10 @@ public class DistSensors {
     HardwareMap hwMap;
     DistanceSensor distFront;// distBack;
 
+    public DistSensors(HardwareMap ahwMap){
+        initDistSensors(ahwMap);
+    }
+
     public void initDistSensors(HardwareMap ahwMap) {
         hwMap = ahwMap;
         distFront = hwMap.get(DistanceSensor.class, "distFront");

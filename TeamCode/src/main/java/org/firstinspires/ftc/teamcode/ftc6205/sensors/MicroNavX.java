@@ -10,6 +10,11 @@ public class MicroNavX {
 
     IMU navx;
     HardwareMap hwMap;
+
+    public MicroNavX(HardwareMap ahwMap){
+        initIMU(ahwMap);
+    }
+
     public void initIMU(HardwareMap ahwMap) {
         hwMap = ahwMap;
         // Retrieve the IMU from the hardware map

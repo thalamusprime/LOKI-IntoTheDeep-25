@@ -9,7 +9,12 @@ public class Claw {
     Servo claw;
     HardwareMap hwMap;
     Gamepad gpad1;
-    public void init(HardwareMap ahwMap)  {
+
+    public Claw (HardwareMap ahwMap) {
+        initClaw(ahwMap);
+    }
+
+    public void initClaw(HardwareMap ahwMap)  {
         hwMap = ahwMap;
 
         claw = hwMap.servo.get("claw");

@@ -90,24 +90,18 @@ public class LOKI_AUTO extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
         //dsTelemetry = new DSTelemetry();
-
     }
 
     private void initActuators() {
-        // Deadwheel encoders, declare BEFORE drive motor declaration or drive motors won't reg.
-        driveEncoders = new DriveEncoders();
-        driveEncoders.init(hardwareMap);
-        // Drivetrain motors
-        drivetrain = new Drivetrain(hardwareMap);
-        //drivetrain.initDriveMotors(hardwareMap);
+        driveEncoders = new DriveEncoders(hardwareMap); // Encoders before Drivetrain
+        drivetrain = new Drivetrain(hardwareMap);       // Drivetrain
     }
+
     private void initSensors() throws InterruptedException {
         pidController = new PIDController(p,i,d);
-        // microNavX
-        navx = new MicroNavX();
+        navx = new MicroNavX(hardwareMap);
         navx.initIMU(hardwareMap);
-        fieldSense = new FieldSense();
-        fieldSense.init(hardwareMap);
+        fieldSense = new FieldSense(hardwareMap);
     }
     private void resetCheck() {
         // Get yaw, reset in match optional
@@ -117,7 +111,7 @@ public class LOKI_AUTO extends LinearOpMode {
             navx.resetYaw();
         }
         if (gamepad1.options) {
-            driveEncoders.init(hardwareMap);
+            driveEncoders.initEncoders(hardwareMap);
             drivetrain.initDriveMotors(hardwareMap);
         }
     }
