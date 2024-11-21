@@ -7,8 +7,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
@@ -19,10 +17,11 @@ import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Wrist;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.ComputerVision;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DistSensors;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -39,11 +38,12 @@ public class LOKI_OPS extends LinearOpMode {
     ShortArm shortArm;
     LongArm longArm;
     ForeArm foreArm;
-    MicroNavX navx;
+    IMU navx;
     DistSensors distSensors;
 
     /////////////////////////////////////////////////////////// to be classed
     Wrist wrist;
+    ComputerVision computerVision;
     OpenCvCamera controlHubCam;
     AprilTagProcessor aprilTagProcessor;
     VisionPortal visionPortal;
@@ -55,9 +55,9 @@ public class LOKI_OPS extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize subsystems
-        this.initMonitoring();
         this.initActuators();
         this.initSensors();
+        this.initMonitoring();
 
         waitForStart();
         // Pause until "PLAY".  Close program if "Stop".
@@ -89,17 +89,18 @@ public class LOKI_OPS extends LinearOpMode {
         // FtcDashboard
         dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        FtcDashboard.getInstance().startCameraStream(computerVision.controlHubCam, 30);
         dsTelemetry = new DSTelemetry();
     }
 
     private void initSensors() throws InterruptedException {
-        navx = new MicroNavX(hardwareMap);
+        navx = new IMU(hardwareMap);
         fieldSense = new FieldSense(hardwareMap);
         distSensors = new DistSensors(hardwareMap);
+        computerVision = new ComputerVision(hardwareMap);
 
-        initAprilTag();
-        initVision();
+        //computerVision.initAprilTag();
+        //computerVision.initVision(hardwareMap);
     }
 
     private void initActuators() {
@@ -161,29 +162,6 @@ public class LOKI_OPS extends LinearOpMode {
         rotX = rotX * 1.1;  // Counteract imperfect strafing
     }
 
-
-    //todo create WRIST
-
-
     // todo create AprilTag
-    private void initAprilTag() {
-        // Tag Processing
-        aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true)
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .build();
-    }
-
-    // todo create VISION PORTAL
-    private void initVision() {
-        // VisionPortal
-        visionPortal = new VisionPortal.Builder()
-                .addProcessor(aprilTagProcessor)
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .setCameraResolution(new Size(1920, 1080))
-                .build();
-    }
 
 }

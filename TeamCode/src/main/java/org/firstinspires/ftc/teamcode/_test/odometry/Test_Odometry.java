@@ -7,9 +7,8 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 
     @Autonomous(name = "TEST - Odometry", group = "TEST")
     //@Disabled
@@ -37,11 +36,11 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
         private Motor intakeLeft, intakeRight, liftLeft, liftRight;
         private Encoder leftOdometer, rightOdometer, centerOdometer;
         private HolonomicOdometry odometry;
-        private IMU imu;
-        MicroNavX navx;
+        private com.qualcomm.robotcore.hardware.IMU imu;
+        IMU navx;
         @Override
         public void runOpMode() throws InterruptedException {
-            navx = new MicroNavX(hardwareMap);
+            navx = new IMU(hardwareMap);
             //navx.initIMU(hardwareMap);
             // Drive motors
             frontLeft = new MotorEx(hardwareMap, "frontleft");

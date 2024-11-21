@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.MicroNavX;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -29,7 +29,7 @@ public class LOKI_AUTO extends LinearOpMode {
     Drivetrain drivetrain;
     PIDController pidController;
     FieldSense fieldSense;
-    MicroNavX navx;
+    IMU navx;
     public static double p = 0.9;
     public static double i = 0;
     public static double d = 0.05;
@@ -99,7 +99,7 @@ public class LOKI_AUTO extends LinearOpMode {
 
     private void initSensors() throws InterruptedException {
         pidController = new PIDController(p,i,d);
-        navx = new MicroNavX(hardwareMap);
+        navx = new IMU(hardwareMap);
         navx.initIMU(hardwareMap);
         fieldSense = new FieldSense(hardwareMap);
     }
