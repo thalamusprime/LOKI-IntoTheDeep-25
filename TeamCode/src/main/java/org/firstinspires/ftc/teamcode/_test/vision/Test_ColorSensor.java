@@ -52,7 +52,10 @@ public class Test_ColorSensor extends LinearOpMode
 
             // Display the Color Sensor result.
             telemetry.addData("Best Match:", result.closestSwatch);
-            telemetry.addLine(String.format("R %3d, G %3d, B %3d", Color.red(result.rgb), Color.green(result.rgb), Color.blue(result.rgb)));
+            telemetry.addLine(String.format("R %3d, G %3d, B %3d",
+                    Color.red(result.rgb),
+                    Color.green(result.rgb),
+                    Color.blue(result.rgb)));
             telemetry.update();
 
             sleep(20);

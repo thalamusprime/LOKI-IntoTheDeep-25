@@ -13,9 +13,6 @@ public class TrueNorth {
     double Kp = DrivePIDConstants.Kp;
     double Ki = DrivePIDConstants.Ki;
     double Kd = DrivePIDConstants.Kd;
-    double Kp_d = DrivePIDConstants.Kp;
-    double Ki_d = DrivePIDConstants.Ki;
-    double Kd_d = DrivePIDConstants.Kd;
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;

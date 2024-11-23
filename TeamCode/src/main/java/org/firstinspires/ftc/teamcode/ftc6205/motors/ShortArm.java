@@ -17,7 +17,7 @@ import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - Short Arm", group = "CONFIG")
-@Disabled
+//@Disabled
 public class ShortArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
@@ -28,6 +28,7 @@ public class ShortArm extends OpMode {
     public static int armLowGoal = 2350;
     public static int armInit = 0;
     public static int target = 0;
+    public static double short_arm_speed = 0.75;
 
     //private final double ticks_in_degree = 5281.1/360; //537.7;
     public static double ticks_in_degree = 1680; //5281.1/360; //537.7;
@@ -141,9 +142,9 @@ public class ShortArm extends OpMode {
         gpad1 = gpad;
 
         if (!gpad1.left_bumper && gpad1.dpad_down) {
-            this.rot(0.5);
+            this.rot(this.short_arm_speed);
         }  else if (!gpad1.left_bumper && gpad1.dpad_up) {
-            this.rot(-0.5);
+            this.rot(-this.short_arm_speed);
         }  else if (gpad1.a) {
             this.rotArmUntil(this.armFloor);
         }  else if (gpad1.b) {

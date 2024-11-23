@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode._teleop;
 
-import android.util.Size;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-
+import org.firstinspires.ftc.teamcode.ftc6205.globals.DrivePIDConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
@@ -40,8 +38,10 @@ public class LOKI_OPS extends LinearOpMode {
     ForeArm foreArm;
     IMU navx;
     DistSensors distSensors;
+    TrueNorth trueNorth;
+    PIDController pidController;
 
-    /////////////////////////////////////////////////////////// to be classed
+    // to be classed
     Wrist wrist;
     ComputerVision computerVision;
     OpenCvCamera controlHubCam;
@@ -57,6 +57,7 @@ public class LOKI_OPS extends LinearOpMode {
         // Initialize subsystems
         this.initActuators();
         this.initSensors();
+        this.initControllers();
         this.initMonitoring();
 
         waitForStart();
@@ -68,23 +69,20 @@ public class LOKI_OPS extends LinearOpMode {
             // RUN SUBSYSTEMS
             fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
             claw.grab(gamepad1);            // GRAB CLAW
-            shortArm.rotate(gamepad1);      // ROTATE SHORTARM
-            longArm.raise(gamepad1);        // RAISE LONGARM
-            foreArm.reach(gamepad1);        // REACH FOREARM reach
-            driveEncoders.runEncoders();    // READ DRIVEENCODERS
+            shortArm.rotate(gamepad1);      // ROTATE SHORT-ARM
+            longArm.raise(gamepad1);        // RAISE LONG-ARM
+            foreArm.reach(gamepad1);        // REACH FORE-ARM
+            driveEncoders.runEncoders();    // READ DRIVE-ENCODERS
             this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
             this.runFieldCentric();         //
             drivetrain.runBot(gamepad1, rotY, rotX, rz);
-
             dsTelemetry.sendTelemetry(  telemetry,
                                         driveEncoders,
-                                        fieldSense
-            );
+                                        fieldSense);
         }
     }
 
-    // TODO create Monitor
     private void initMonitoring() {
         // FtcDashboard
         dashboard = FtcDashboard.getInstance();
@@ -93,14 +91,12 @@ public class LOKI_OPS extends LinearOpMode {
         dsTelemetry = new DSTelemetry();
     }
 
-    private void initSensors() throws InterruptedException {
+    private void initSensors() {
         navx = new IMU(hardwareMap);
         fieldSense = new FieldSense(hardwareMap);
         distSensors = new DistSensors(hardwareMap);
         computerVision = new ComputerVision(hardwareMap);
-
-        //computerVision.initAprilTag();
-        //computerVision.initVision(hardwareMap);
+        trueNorth = new TrueNorth();
     }
 
     private void initActuators() {
@@ -113,6 +109,10 @@ public class LOKI_OPS extends LinearOpMode {
         //wrist = new Wrist(hardwareMap);
     }
 
+    private void initControllers() {
+        pidController = new PIDController(DrivePIDConstants.Kp, DrivePIDConstants.Ki, DrivePIDConstants.Kd);
+    }
+
     private void resetCheck() {
         // Get yaw, reset in match optional
         if (gamepad1.start) {
@@ -122,6 +122,7 @@ public class LOKI_OPS extends LinearOpMode {
         }
         if (gamepad1.options) {
             shortArm.initArm(hardwareMap);
+            longArm.initLongArm(hardwareMap);
             driveEncoders.initEncoders(hardwareMap);
             drivetrain.initDriveMotors(hardwareMap);
         }
@@ -138,10 +139,9 @@ public class LOKI_OPS extends LinearOpMode {
             refHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // ref
         } else {
             rz = 0;
-            // PID Controller
-            TrueNorth pidControl = new TrueNorth();
-            pidOutput = pidControl.TwistControl(refHeading, botHeading);
-            if (Math.abs(pidOutput) > 0.02) {
+            //pidOutput = trueNorth.TwistControl(refHeading, botHeading);
+            pidOutput = pidController.calculate(botHeading, refHeading);
+            if (Math.abs(pidOutput) > 0.03) {
                 rz = pidOutput;
             }
         }
@@ -162,6 +162,4 @@ public class LOKI_OPS extends LinearOpMode {
         rotX = rotX * 1.1;  // Counteract imperfect strafing
     }
 
-    // todo create AprilTag
-
-}
+} // end LOKI_OPS class

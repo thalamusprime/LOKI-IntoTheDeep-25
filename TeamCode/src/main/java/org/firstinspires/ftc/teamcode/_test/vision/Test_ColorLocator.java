@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode._test.vision;
 
 import android.util.Size;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -12,13 +10,11 @@ import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.opencv.core.RotatedRect;
-
 import java.util.List;
 
 //@Disabled
 @TeleOp(name = "Concept: Vision Color-Locator", group = "Concept")
-public class Test_ColorLocator extends LinearOpMode
-{
+public class Test_ColorLocator extends LinearOpMode {
     @Override
     public void runOpMode() {
         ColorBlobLocatorProcessor colorLocator = new ColorBlobLocatorProcessor.Builder()
@@ -55,7 +51,11 @@ public class Test_ColorLocator extends LinearOpMode
             {
                 RotatedRect boxFit = b.getBoxFit();
                 telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
-                          b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
+                        b.getContourArea(),
+                        b.getDensity(),
+                        b.getAspectRatio(),
+                        (int) boxFit.center.x,
+                        (int) boxFit.center.y));
             }
 
             telemetry.update();

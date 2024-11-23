@@ -23,9 +23,10 @@ public class LongArm extends OpMode {
     public static double i = 0;
     public static double d = 0.01;
     public static double f = 0.005;
-    public static int liftArmLow = 50;
-    public static int liftArmHigh = 1200;
+    public static int lift_arm_low = 50;
+    public static int lift_arm_high = 1200;
     public static int target = 0;
+    public static double long_arm_speed = 0.2;
 
     //private final double ticks_in_degree = 5281.1/360; //537.7;
     public static double ticks_in_degree = 1680; //5281.1/360; //537.7;
@@ -75,13 +76,13 @@ public class LongArm extends OpMode {
     public void raise(Gamepad gpad) {
         gpad1 = gpad;
         if (gpad1.left_bumper && gpad1.right_bumper && gpad1.dpad_left) {
-            this.drive(0.2);
+            this.drive(this.long_arm_speed);
         }  else if (gpad1.left_bumper && gpad1.right_bumper && gpad1.dpad_right) {
-            this.drive(-0.2);
+            this.drive(-this.long_arm_speed);
         }  else if (gpad1.left_bumper && gpad1.dpad_left) {
-            this.runArmUntil(this.liftArmHigh);
+            this.runArmUntil(this.lift_arm_high);
         }  else if (gpad1.left_bumper && gpad1.dpad_right) {
-            this.runArmUntil(this.liftArmLow);
+            this.runArmUntil(this.lift_arm_low);
         }  else {
             this.drive(0);
         }
