@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.ftc6205.globals.DrivePIDConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.TwistPIDConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
@@ -110,7 +110,7 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void initControllers() {
-        pidController = new PIDController(DrivePIDConstants.Kp, DrivePIDConstants.Ki, DrivePIDConstants.Kd);
+        pidController = new PIDController(TwistPIDConstants.Kp, TwistPIDConstants.Ki, TwistPIDConstants.Kd);
     }
 
     private void resetCheck() {
