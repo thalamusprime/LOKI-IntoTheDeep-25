@@ -70,8 +70,8 @@ public class LOKI_OPS extends LinearOpMode {
             fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
             claw.grab(gamepad1);            // GRAB CLAW
             shortArm.rotate(gamepad1);      // ROTATE SHORT-ARM
-            longArm.raise(gamepad1);        // RAISE LONG-ARM
             foreArm.reach(gamepad1);        // REACH FORE-ARM
+            longArm.raise(gamepad1);        // RAISE LONG-ARM
             driveEncoders.runEncoders();    // READ DRIVE-ENCODERS
             this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
@@ -96,7 +96,6 @@ public class LOKI_OPS extends LinearOpMode {
         fieldSense = new FieldSense(hardwareMap);
         distSensors = new DistSensors(hardwareMap);
         computerVision = new ComputerVision(hardwareMap);
-        trueNorth = new TrueNorth();
     }
 
     private void initActuators() {
@@ -110,56 +109,11 @@ public class LOKI_OPS extends LinearOpMode {
     }
 
     private void initControllers() {
-        pidController = new PIDController(TwistPIDConstants.Kp, TwistPIDConstants.Ki, TwistPIDConstants.Kd);
+        pidController = new PIDController(  TwistPIDConstants.Kp,
+                                            TwistPIDConstants.Ki,
+                                            TwistPIDConstants.Kd );
+        trueNorth = new TrueNorth();
     }
 
-    private void resetCheck() {
-        // Get yaw, reset in match optional
-        if (gamepad1.start) {
-            refHeading = 0;
-            botHeading = 0;
-            navx.resetYaw();
-        }
-        if (gamepad1.options) {
-            shortArm.initArm(hardwareMap);
-            longArm.initLongArm(hardwareMap);
-            driveEncoders.initEncoders(hardwareMap);
-            drivetrain.initDriveMotors(hardwareMap);
-        }
-    }
-
-    private void runTrueNorth() {
-        // Get XY: gamepad1
-        y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        x = -gamepad1.left_stick_x; //-
-
-        // Get  Z: gamepad1
-        if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
-            rz = -gamepad1.right_stick_x;
-            refHeading = navx.getYawInDegrees();//.getYaw(AngleUnit.RADIANS); // ref
-        } else {
-            rz = 0;
-            //pidOutput = trueNorth.TwistControl(refHeading, botHeading);
-            pidOutput = pidController.calculate(botHeading, refHeading);
-            if (Math.abs(pidOutput) > 0.03) {
-                rz = pidOutput;
-            }
-        }
-    }
-
-    private void runFieldCentric() {
-        botHeading = navx.getYawInDegrees();
-
-        // Field-centric drive, Robot-centric default
-        if (gamepad1.left_bumper) {
-            rotX = x;
-            rotY = y;
-        } else {
-            // Rotate the movement direction counter to the bot's rotation
-            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-        }
-        rotX = rotX * 1.1;  // Counteract imperfect strafing
-    }
 
 } // end LOKI_OPS class
