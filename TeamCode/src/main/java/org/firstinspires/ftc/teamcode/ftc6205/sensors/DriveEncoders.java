@@ -12,15 +12,16 @@ public class DriveEncoders {
     HardwareMap hwMap;
 
     public DriveEncoders(HardwareMap ahwMap) {
+
         initEncoders(ahwMap);
     }
 
     public void initEncoders(HardwareMap ahwMap) {
         hwMap = ahwMap;
         // Encoders
-        encoderLeft = hwMap.dcMotor.get("frontleft");
-        encoderBack = hwMap.dcMotor.get("backleft");
-        encoderRight = hwMap.dcMotor.get("frontright");
+        encoderLeft = hwMap.dcMotor.get("frontleft"); // port
+        encoderBack = hwMap.dcMotor.get("backleft"); // port
+        encoderRight = hwMap.dcMotor.get("frontright"); // port
         encoderLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         encoderLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -29,29 +29,14 @@ public class IMU {
         navx.initialize(parameters);
     }
 
-//    private void runFieldCentric(Gamepad gpad) {
-//        gpad1 = gpad;
-//        botHeading = this.getYawInDegrees();
-//        x = gpad1.left_stick_x;
-//        y = -gpad1.left_stick_y;
-//
-//        // Field-centric drive, Robot-centric default
-//        if (gpad1.left_bumper) {
-//            rotX = x;
-//            rotY = y;
-//        } else {
-//            // Rotate the movement direction counter to the bot's rotation
-//            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-//            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-//        }
-//        rotX = rotX * 1.1;  // Counteract imperfect strafing
-//    }
-
     public void resetYaw() {
         navx.resetYaw();
     }
 
     public double getYawInDegrees() {
+        return navx.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    public double getYawInRadians() {
         return navx.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 }

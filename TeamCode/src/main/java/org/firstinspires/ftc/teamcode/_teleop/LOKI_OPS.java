@@ -115,5 +115,55 @@ public class LOKI_OPS extends LinearOpMode {
         trueNorth = new TrueNorth();
     }
 
+    private void resetCheck() {
+        if (gamepad1.share) {
+            //claw.initClaw();
+            //wrist.initWrist();
+            //foreArm.initForeArm();
+            //arm.initArm();
+            //lift.initLift();
+        }
+        if (gamepad1.options) {
+            refHeading = 0;
+            botHeading = 0;
+            navx.resetYaw();
+            //otos.resetTracking();
+        }
+    }
+
+    private void runTrueNorth(){
+        y = gamepad1.left_stick_y;  // Remember, Y stick value is reversed
+        x = -gamepad1.left_stick_x; //-
+
+        if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
+            rz = -gamepad1.right_stick_x;
+            refHeading = navx.getYawInRadians();  // todo: otos?
+        } else {
+            rz = 0;
+            // PID Controller
+            TrueNorth trueNorth = new TrueNorth();
+            pidOutput = trueNorth.twistControl(refHeading, botHeading);
+            //pidOutput =  pidController.calculate(botHeading, refHeading);
+
+            if (Math.abs(pidOutput) > 0.03) {
+                rz = pidOutput;
+            }
+        }
+    }
+
+    private void runFieldCentric() {
+        // Get heading
+        botHeading = navx.getYawInRadians(); // bot
+
+        // Robot-centric, Field-centric
+        if (gamepad1.left_bumper) {
+            rotX = x;
+            rotY = y;
+        } else {
+            rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+            rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+        }
+        rotX = rotX * 1.1;  // Counteract imperfect strafing
+    }
 
 } // end LOKI_OPS class

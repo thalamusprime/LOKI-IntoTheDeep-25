@@ -18,7 +18,7 @@ public class TrueNorth {
     private double lastError = 0;
     //private BNO055IMU imu;
 
-    public double TwistControl(double reference, double state) {
+    public double twistControl(double reference, double state) {
         double error = angleWrap(reference - state);
         //telemetry.addData("Error: ", error);
         integralSum += error * timer.seconds();
