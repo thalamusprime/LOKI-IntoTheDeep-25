@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
+import org.firstinspires.ftc.teamcode.ftc6205.sensors.DeadWheels;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 
 //@TeleOp
@@ -34,7 +34,7 @@ public class DSTelemetry {
     // Send telemetry data
     public void sendTelemetry(
             Telemetry telemetry,
-            DriveEncoders driveEncoders,
+            DeadWheels driveEncoders,
             FieldSense fieldSenseArm
     ) throws InterruptedException {
 

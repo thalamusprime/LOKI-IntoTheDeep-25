@@ -9,14 +9,14 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 
-public class ComputerVision {
+public class ScarViz {
     public OpenCvCamera controlHubCam;
     public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
 
     HardwareMap hwMap;
 
-    public ComputerVision(HardwareMap ahwMap){
+    public ScarViz(HardwareMap ahwMap){
         initAprilTag();
         initVision(ahwMap);
     }

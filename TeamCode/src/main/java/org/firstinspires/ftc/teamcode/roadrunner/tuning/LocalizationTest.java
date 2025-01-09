@@ -14,15 +14,16 @@ import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
 @TeleOp(name = "RR - LocalizationTest", group = "TEST")
-@Disabled
+//@Disabled
 public class LocalizationTest extends LinearOpMode {
+    MecanumDrive drive;
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-
+            drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+            //telemetry.addData("");
             waitForStart();
 
             while (opModeIsActive()) {

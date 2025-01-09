@@ -4,10 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.DriveEncoders;
-
 public class Drivetrain {
     public DcMotor frontLeftDriveMotor;
     public DcMotor backLeftDriveMotor;
@@ -86,6 +82,16 @@ public class Drivetrain {
         backRightDriveMotor.setPower(backRightPower);
     }
     public void autoStrafe(double power){
+        double frontLeftPower = power;
+        double backLeftPower = -power;
+        double frontRightPower = -power;
+        double backRightPower = power;
+        frontLeftDriveMotor.setPower(frontLeftPower);
+        backLeftDriveMotor.setPower(backLeftPower);
+        frontRightDriveMotor.setPower(frontRightPower);
+        backRightDriveMotor.setPower(backRightPower);
+    }
+    public void autoTurn(double power){
         double frontLeftPower = power;
         double backLeftPower = -power;
         double frontRightPower = -power;

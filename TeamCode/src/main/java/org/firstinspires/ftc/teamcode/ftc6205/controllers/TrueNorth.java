@@ -29,7 +29,7 @@ public class TrueNorth {
         return output;
     }
 
-    public double PIDDistance(double reference, double state) {
+    public double pidDistance(double reference, double state) {
         double error = reference - state;
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / (timer.seconds());

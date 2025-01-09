@@ -5,14 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
-public class DriveEncoders {
+public class DeadWheels {
     public DcMotor encoderLeft, encoderBack, encoderRight;
     public double encLeftValue, encBackValue, encRightValue;
     public static double tickToInches = 0.00285;
     HardwareMap hwMap;
 
-    public DriveEncoders(HardwareMap ahwMap) {
-
+    public DeadWheels(HardwareMap ahwMap) {
         initEncoders(ahwMap);
     }
 
@@ -22,18 +21,21 @@ public class DriveEncoders {
         encoderLeft = hwMap.dcMotor.get("frontleft"); // port
         encoderBack = hwMap.dcMotor.get("backleft"); // port
         encoderRight = hwMap.dcMotor.get("frontright"); // port
+
+        encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         encoderLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         encoderLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        encoderLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        encoderBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
         encoderBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        encoderBack.setDirection(DcMotorSimple.Direction.FORWARD);
         encoderBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         encoderRight.setDirection(DcMotorSimple.Direction.REVERSE);
         encoderRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        encoderRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void runEncoders() throws InterruptedException {
+    public void runEncoders() {//} throws InterruptedException {
         // Get current encoder position
         encLeftValue = encoderLeft.getCurrentPosition() * tickToInches;
         encBackValue = encoderBack.getCurrentPosition() * tickToInches;
