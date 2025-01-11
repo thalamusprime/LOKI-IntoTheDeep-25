@@ -20,7 +20,6 @@ public class TrueNorth {
 
     public double twistControl(double reference, double state) {
         double error = angleWrap(reference - state);
-        //telemetry.addData("Error: ", error);
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / (timer.seconds());
         lastError = error;

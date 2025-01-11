@@ -66,19 +66,20 @@ public class LOKI_OPS extends LinearOpMode {
         // TELEOP LOOP
         while (opModeIsActive()) {
             // RUN SUBSYSTEMS
-            //fieldSense.check(gamepad1);     // CHECK FIELD SENSOR
+            //fieldSense.check(gamepad1);   // CHECK FIELD SENSOR
             claw.grab(gamepad1);            // GRAB CLAW
             shortArm.rotate(gamepad1);      // ROTATE SHORT-ARM
             foreArm.reach(gamepad1);        // REACH FORE-ARM
             longArm.raise(gamepad1);        // RAISE LONG-ARM
-            deadWheels.runEncoders();    // READ DRIVE-ENCODERS
+            deadWheels.runEncoders();       // READ DRIVE-ENCODERS
             this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
             this.runFieldCentric();         //
             drivetrain.runBot(gamepad1, rotY, rotX, rz);
-            dsTelemetry.sendTelemetry(  telemetry,
+            dsTelemetry.sendTelemetry(
+                    telemetry,
                     deadWheels,
-                                        fieldSense);
+                    fieldSense);
         }
     }
 
@@ -138,7 +139,7 @@ public class LOKI_OPS extends LinearOpMode {
 
         if (Math.abs(gamepad1.right_stick_x) > 0.03) { // Yaw threshold
             rz = -gamepad1.right_stick_x;
-            refHeading = navx.getYawInRadians();  // todo: otos?
+            refHeading = navx.getYawInRadians();
         } else {
             rz = 0;
             // PID Controller

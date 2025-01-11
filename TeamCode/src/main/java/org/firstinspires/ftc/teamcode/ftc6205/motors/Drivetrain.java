@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
+
 public class Drivetrain {
     public DcMotor frontLeftDriveMotor;
     public DcMotor backLeftDriveMotor;
@@ -66,12 +68,7 @@ public class Drivetrain {
         backRightDriveMotor.setPower(backRightPower);
     }
 
-    public void autoForward(double power){//;//, DriveEncoders driveEncoders, int leftTarget, int rightTarget){
-//        double forwardTicks = 0;
-//        double leftValue = driveEncoders.encLeftValue;
-//        double rightValue = driveEncoders.encRightValue;
-//        double pid = pidController.calculate(current_position, leftValue);
-
+    public void autoSpeedForward(double power){//;//, DriveEncoders driveEncoders, int leftTarget, int rightTarget){
         double frontLeftPower = -power;
         double backLeftPower = -power;
         double frontRightPower = -power;
@@ -91,11 +88,14 @@ public class Drivetrain {
         frontRightDriveMotor.setPower(frontRightPower);
         backRightDriveMotor.setPower(backRightPower);
     }
-    public void autoTurn(double power){
-        double frontLeftPower = power;
-        double backLeftPower = -power;
-        double frontRightPower = -power;
-        double backRightPower = power;
+    public void autoTurn(double refHeading, double botHeading){
+        TrueNorth trueNorth = new TrueNorth();
+        double pidOutput = trueNorth.twistControl(refHeading, botHeading);
+
+        double frontLeftPower = pidOutput;
+        double backLeftPower = pidOutput;
+        double frontRightPower = -pidOutput;
+        double backRightPower = -pidOutput;
         frontLeftDriveMotor.setPower(frontLeftPower);
         backLeftDriveMotor.setPower(backLeftPower);
         frontRightDriveMotor.setPower(frontRightPower);

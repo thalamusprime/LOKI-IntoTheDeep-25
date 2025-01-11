@@ -1,22 +1,24 @@
 package org.firstinspires.ftc.teamcode._auto;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 // RR-specific imports
 
+import org.firstinspires.ftc.teamcode.ftc6205.actions.ClawAction;
 import org.firstinspires.ftc.teamcode.ftc6205.actions.DriveAction;
-import org.firstinspires.ftc.teamcode.ftc6205.actions.LiftAction;
+import org.firstinspires.ftc.teamcode.ftc6205.actions.LongArmAction;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.GridCoordinates;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
-import org.firstinspires.ftc.teamcode.ftc6205.sensors.DeadWheels;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 
 @Config
@@ -24,12 +26,12 @@ import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 public class BlueBase extends LinearOpMode {
     LongArm longArm;
     Claw claw;
-    //DeadWheels deadWheels;
     Drivetrain drivetrain;
     TrueNorth trueNorth;
     IMU imu;
 
-    LiftAction liftAction;
+    ClawAction clawAction;
+    LongArmAction longArmAction;
     DriveAction driveAction;
 
     public static double START_ANGLE = Math.toRadians(-90);
@@ -43,6 +45,7 @@ public class BlueBase extends LinearOpMode {
     double botHeading, refHeading;
     double pidOutput;
 
+    boolean single_run = false;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -59,24 +62,42 @@ public class BlueBase extends LinearOpMode {
             this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
             this.runFieldCentric();         //
+            //todo: conditional for drivetrain.  may currently interfere with DriveAction
             drivetrain.runBot(gamepad1, rotY, rotX, rz);
 
-            //telemetry.addLine(String.format("L|B|R: ",
-                    //deadWheels.encLeftValue,
-                    //deadWheels.encBackValue,
-                    //deadWheels.encRightValue)
-            //);
-            //telemetry.addData("D: ", drivetrain.frontLeftDriveMotor.getPower());
             telemetry.update();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            liftAction.liftUp(),
-                            driveAction.driveForward(),
-                            liftAction.liftDown()
-                    )
-            );
 
-        }
+            // todo: abstract distance
+            double distance = 24;
+
+            // todo: conditional Actions
+            if (true){
+                //if (single_run == false){
+                single_run = true;
+                Actions.runBlocking(
+                        new ParallelAction(
+                                new SequentialAction(
+                                        //longArmAction.liftDown(),
+                                        clawAction.openClaw(),
+                                        new SleepAction(1.0),
+                                        //longArmAction.liftUp(),
+                                        clawAction.closeClaw(),
+                                        new SleepAction(1.0)
+                                ),
+                                new SequentialAction(
+                                        driveAction.straight(distance),
+                                        new SleepAction(1.0),
+                                        //driveAction.turn(GridCoordinates.WEST),
+                                        driveAction.strafe(distance),
+                                        //new SleepAction(1.0),
+                                        driveAction.turn(GridCoordinates.EAST),
+                                        new SleepAction(1.0),
+                                        driveAction.turn(GridCoordinates.NORTH)
+                                )
+                        )
+                ); //end runBlocking
+            } //end: Action Pipeline
+        } //end: opModeisActive
     }
     private void resetCheck() {
         if (gamepad1.share) {
@@ -86,6 +107,7 @@ public class BlueBase extends LinearOpMode {
             //arm.initArm();
             //lift.initLift();
             //deadWheels.initEncoders(hardwareMap);
+            driveAction.deadWheels.initEncoders(hardwareMap);
             drivetrain.initDriveMotors(hardwareMap);
         }
         if (gamepad1.options) {
@@ -132,14 +154,14 @@ public class BlueBase extends LinearOpMode {
 
     private void initSensors(){
         imu = new IMU(hardwareMap);
-        //deadWheels = new DeadWheels(hardwareMap);
     }
     private void initActuators(){
         drivetrain = new Drivetrain(hardwareMap);
     }
 
     private void initActions(){
-        liftAction = new LiftAction(hardwareMap);
+        clawAction = new ClawAction(hardwareMap);
+        longArmAction = new LongArmAction(hardwareMap);
         driveAction = new DriveAction(hardwareMap);
     }
     private void initTrajectories(){

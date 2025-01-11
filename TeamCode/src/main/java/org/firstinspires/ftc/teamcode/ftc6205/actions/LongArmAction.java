@@ -9,15 +9,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode._auto.BaseAuto;
+public class LongArmAction {
+    private DcMotorEx longArm;
 
-public class LiftAction {
-    private DcMotorEx lift;
-
-    public LiftAction(HardwareMap hardwareMap) {
-        lift = hardwareMap.get(DcMotorEx.class, "longArm");
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+    public LongArmAction(HardwareMap hardwareMap) {
+        longArm = hardwareMap.get(DcMotorEx.class, "longArm");
+        longArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        longArm.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     public class LiftUp implements Action {
         private boolean initialized = false;
@@ -25,17 +23,17 @@ public class LiftAction {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                lift.setPower(0.4);
+                longArm.setPower(0.4);
                 initialized = true;
             }
 
-            double pos = lift.getCurrentPosition();
-            packet.put("liftPos", pos);
-            //telemetry.addData("LIFT: ", String.valueOf(pos));
+            double pos = longArm.getCurrentPosition();
+            packet.put("LongArm: ", pos);
+            packet.addLine(String.format("LongArm: ", String.valueOf(pos)));
             if (pos < 3000.0) {
                 return true;
             } else {
-                lift.setPower(0);
+                longArm.setPower(0);
                 return false;
             }
 
@@ -51,16 +49,16 @@ public class LiftAction {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                lift.setPower(-0.8);
+                longArm.setPower(-0.8);
                 initialized = true;
             }
 
-            double pos = lift.getCurrentPosition();
+            double pos = longArm.getCurrentPosition();
             packet.put("liftPos", pos);
             if (pos > 100.0) {
                 return true;
             } else {
-                lift.setPower(0);
+                longArm.setPower(0);
                 return false;
             }
         }

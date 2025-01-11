@@ -4,6 +4,11 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class GridCoordinates {
+    public static final double NORTH = 0;
+    public static final double WEST = 1.57;//90;
+    public static final double EAST = -1.57;
+    public static final double SOUTH = 3.14;
+
     public static final double A = 60;
     public static final double B = 36;
     public static final double C = 12;
