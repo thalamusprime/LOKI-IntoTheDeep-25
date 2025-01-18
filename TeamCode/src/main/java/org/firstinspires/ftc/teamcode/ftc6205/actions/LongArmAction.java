@@ -29,7 +29,6 @@ public class LongArmAction {
 
             double pos = longArm.getCurrentPosition();
             packet.put("LongArm: ", pos);
-            packet.addLine(String.format("LongArm: ", String.valueOf(pos)));
             if (pos < 3000.0) {
                 return true;
             } else {

@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode.ftc6205.actions;
 
 import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode._auto.BaseAuto;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
 
 public class ClawAction {

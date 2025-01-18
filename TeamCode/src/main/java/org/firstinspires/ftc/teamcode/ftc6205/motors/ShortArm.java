@@ -95,7 +95,6 @@ public class ShortArm extends OpMode {
         double power = pid * ff;
         arm.setPower(power);
     }
-
     public void initPixelArm(HardwareMap hMap) {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());

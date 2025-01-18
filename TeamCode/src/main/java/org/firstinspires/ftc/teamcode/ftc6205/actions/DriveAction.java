@@ -116,7 +116,7 @@ public class DriveAction {
             deadWheels.runEncoders();
 
             if (!initialized) {
-                //drivetrain.autoTurn(0.25);
+                drivetrain.autoTurn(angleDist, 0);
                 initialized = true;
             }
             refHeading = angleDist;

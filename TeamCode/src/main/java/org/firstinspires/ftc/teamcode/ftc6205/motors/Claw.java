@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.ftc6205.motors;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
-
+@Config
 public class Claw {
     Servo claw;
     HardwareMap hwMap;

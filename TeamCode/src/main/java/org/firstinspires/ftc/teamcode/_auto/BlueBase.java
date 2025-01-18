@@ -15,14 +15,14 @@ import org.firstinspires.ftc.teamcode.ftc6205.actions.ClawAction;
 import org.firstinspires.ftc.teamcode.ftc6205.actions.DriveAction;
 import org.firstinspires.ftc.teamcode.ftc6205.actions.LongArmAction;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
-import org.firstinspires.ftc.teamcode.ftc6205.globals.GridCoordinates;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.IMU;
 
 @Config
-@Autonomous(name = "*A: BLUE_BASE", group = "TEST")
+@Autonomous(name = "*A: BLUE_BASE", group = "AUTO")
 public class BlueBase extends LinearOpMode {
     LongArm longArm;
     Claw claw;
@@ -35,8 +35,8 @@ public class BlueBase extends LinearOpMode {
     DriveAction driveAction;
 
     public static double START_ANGLE = Math.toRadians(-90);
-    public static double START_X = GridCoordinates.III;
-    public static double START_Y = GridCoordinates.A;
+    public static double START_X = FieldCoordinates.III;
+    public static double START_Y = FieldCoordinates.A;
 
     Pose2d startPose = new Pose2d(START_X, START_Y, START_ANGLE);
     ElapsedTime timer = new ElapsedTime();
@@ -60,10 +60,10 @@ public class BlueBase extends LinearOpMode {
         // TELEOP LOOP
         while (opModeIsActive()) {
             this.resetCheck();              // RESET TrueNorth | Encoders
-            this.runTrueNorth();            // PID Straight
-            this.runFieldCentric();         //
+            //this.runTrueNorth();            // PID Straight
+            //this.runFieldCentric();         //
             //todo: conditional for drivetrain.  may currently interfere with DriveAction
-            drivetrain.runBot(gamepad1, rotY, rotX, rz);
+            //drivetrain.runBot(gamepad1, rotY, rotX, rz);
 
             telemetry.update();
 
@@ -77,22 +77,25 @@ public class BlueBase extends LinearOpMode {
                 Actions.runBlocking(
                         new ParallelAction(
                                 new SequentialAction(
-                                        //longArmAction.liftDown(),
+                                        longArmAction.liftDown(),
                                         clawAction.openClaw(),
                                         new SleepAction(1.0),
-                                        //longArmAction.liftUp(),
+                                        longArmAction.liftUp(),
                                         clawAction.closeClaw(),
                                         new SleepAction(1.0)
                                 ),
                                 new SequentialAction(
                                         driveAction.straight(distance),
                                         new SleepAction(1.0),
-                                        //driveAction.turn(GridCoordinates.WEST),
-                                        driveAction.strafe(distance),
-                                        //new SleepAction(1.0),
-                                        driveAction.turn(GridCoordinates.EAST),
+                                        driveAction.straight(-distance),
                                         new SleepAction(1.0),
-                                        driveAction.turn(GridCoordinates.NORTH)
+                                        driveAction.straight(distance)
+                                        //driveAction.turn(GridCoordinates.WEST),
+                                        //driveAction.strafe(distance)
+                                        //new SleepAction(1.0),
+                                        //driveAction.turn(GridCoordinates.EAST),
+                                        //new SleepAction(1.0),
+                                        //driveAction.turn(GridCoordinates.NORTH)
                                 )
                         )
                 ); //end runBlocking
