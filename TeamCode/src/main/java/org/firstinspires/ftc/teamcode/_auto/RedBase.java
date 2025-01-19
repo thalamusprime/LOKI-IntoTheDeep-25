@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode._auto;
 
 import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.*;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.E;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.F;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.III;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.IV;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -28,7 +24,6 @@ public final class RedBase extends LinearOpMode {
     public static double X_OFFSET = 8;
     public static double Y_OFFSET = 8;
 
-
     Pose2d startPose = new Pose2d(START_X, START_Y, START_ANGLE);
 
     @Override
@@ -42,7 +37,6 @@ public final class RedBase extends LinearOpMode {
                     //todo: 1
                     .strafeToLinearHeading(new Vector2d(III+X_OFFSET, E ), WEST)
                     //todo: 2
-                    //.lineToXConstantHeading(V-X_OFFSET)
                     .strafeToLinearHeading(new Vector2d(V, E), WEST)
                     //todo: 3
                     .strafeToLinearHeading(new Vector2d(V, D), WEST)
@@ -57,12 +51,9 @@ public final class RedBase extends LinearOpMode {
                     //todo: 8
                     .strafeToLinearHeading(new Vector2d(VI, F+Y_OFFSET), WEST)
                     // completed at 15 sec
-
-                        
-//                    .strafeToLinearHeading(new Vector2d(VI, D), WEST) //9
-//                    .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, D), WEST) //10
-//                    .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, F+Y_OFFSET), WEST) //11
-
+                    // .strafeToLinearHeading(new Vector2d(VI, D), WEST) //9
+                    // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, D), WEST) //10
+                    // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, F+Y_OFFSET), WEST) //11
                     .build());
     }
 }
