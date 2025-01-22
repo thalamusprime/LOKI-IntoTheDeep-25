@@ -39,5 +39,3 @@ public class ClawAction {
         return new OpenClaw();
     }
 }
-
-
