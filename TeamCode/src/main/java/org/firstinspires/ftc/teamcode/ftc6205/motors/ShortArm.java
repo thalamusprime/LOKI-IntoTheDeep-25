@@ -17,7 +17,7 @@ import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - Short Arm", group = "CONFIG")
-//@Disabled
+@Disabled
 public class ShortArm extends OpMode {
     public PIDController armController;
     public static double p = 1;
@@ -48,7 +48,7 @@ public class ShortArm extends OpMode {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        arm = hwMap.get(DcMotorEx.class, "arm");
+        arm = hwMap.get(DcMotorEx.class, "shortArm");
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -62,7 +62,7 @@ public class ShortArm extends OpMode {
         armController = new PIDController(p,i,d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm = hardwareMap.get(DcMotorEx.class, "shortArm");
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -140,17 +140,17 @@ public class ShortArm extends OpMode {
     public void rotate(Gamepad gpad) {
         gpad1 = gpad;
 
-        if (!gpad1.left_bumper && gpad1.dpad_down) {
-            this.rot(this.short_arm_speed);
-        }  else if (!gpad1.left_bumper && gpad1.dpad_up) {
-            this.rot(-this.short_arm_speed);
-        }  else if (gpad1.a) {
-            this.rotArmUntil(this.armFloor);
-        }  else if (gpad1.b) {
-            this.rotArmUntil(this.armLowGoal);
-        }  else {
-            this.rot(0);
-        }
+//        if (!gpad1.left_bumper && gpad1.dpad_down) {
+//            this.rot(this.short_arm_speed);
+//        }  else if (!gpad1.left_bumper && gpad1.dpad_up) {
+//            this.rot(-this.short_arm_speed);
+//        }  else if (gpad1.a) {
+//            this.rotArmUntil(this.armFloor);
+//        }  else if (gpad1.b) {
+//            this.rotArmUntil(this.armLowGoal);
+//        }  else {
+//            this.rot(0);
+//        }
 
     }
 

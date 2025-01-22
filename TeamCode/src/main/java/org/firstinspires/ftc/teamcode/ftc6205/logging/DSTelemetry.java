@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Shoulder;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Wrist;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DeadWheels;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.FieldSense;
 
@@ -35,7 +37,9 @@ public class DSTelemetry {
     public void sendTelemetry(
             Telemetry telemetry,
             DeadWheels driveEncoders,
-            FieldSense fieldSenseArm
+            Wrist wrist,
+            Shoulder shoulder
+            //FieldSense fieldSenseArm
     ) throws InterruptedException {
 
         telemetry.addLine(String.format(
@@ -44,7 +48,15 @@ public class DSTelemetry {
                 driveEncoders.encBackValue,
                 driveEncoders.encRightValue
         ));
-        telemetry.addLine(String.valueOf(fieldSenseArm.touchValue));
+        telemetry.addLine(String.format(
+                "WRIST: %5.3f",
+                wrist.getPosition()
+        ));
+        telemetry.addLine(String.format(
+                "SHOULDER: %5.3f",
+                shoulder.getPosition()
+        ));
+        //telemetry.addLine(String.valueOf(fieldSenseArm.touchValue));
 
 //    public void sendTelemetry(
 //                Telemetry telemetry,

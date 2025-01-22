@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.ftc6205.motors;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import java.util.Timer;
 
 @Config
 @TeleOp(name = "CONFIG - LongArm", group = "CONFIG")
+@Disabled
 public class LongArm extends OpMode {
     public PIDController armController;
     public static double p = 1;

@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
+import org.firstinspires.ftc.teamcode.ftc6205.motors.Shoulder;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Wrist;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.ScarViz;
 import org.firstinspires.ftc.teamcode.ftc6205.sensors.DeadWheels;
@@ -24,6 +25,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 
+import kotlin.jvm.internal.Ref;
+
 @TeleOp(name = "*: LOKI", group = "6205")
 public class LOKI_OPS extends LinearOpMode {
     // Subsystems
@@ -32,8 +35,10 @@ public class LOKI_OPS extends LinearOpMode {
     DeadWheels deadWheels;
     Drivetrain drivetrain;
     Claw claw;
+    Wrist wrist;
+    Shoulder shoulder;
     FieldSense fieldSense;
-    ShortArm shortArm;
+    //ShortArm shortArm;
     LongArm longArm;
     ForeArm foreArm;
     IMU navx;
@@ -42,7 +47,6 @@ public class LOKI_OPS extends LinearOpMode {
     PIDController pidController;
 
     // to be classed
-    Wrist wrist;
     ScarViz scarViz;
     OpenCvCamera controlHubCam;
     AprilTagProcessor aprilTagProcessor;
@@ -68,7 +72,8 @@ public class LOKI_OPS extends LinearOpMode {
             // RUN SUBSYSTEMS
             //fieldSense.check(gamepad1);   // CHECK FIELD SENSOR
             claw.grab(gamepad1);            // GRAB CLAW
-            shortArm.rotate(gamepad1);      // ROTATE SHORT-ARM
+            shoulder.shrug(gamepad1);       // SHRUG SHOULDER
+            wrist.revolve(gamepad1);        // ROTATE SHORT-ARM
             foreArm.reach(gamepad1);        // REACH FORE-ARM
             longArm.raise(gamepad1);        // RAISE LONG-ARM
             deadWheels.runEncoders();       // READ DRIVE-ENCODERS
@@ -79,7 +84,8 @@ public class LOKI_OPS extends LinearOpMode {
             dsTelemetry.sendTelemetry(
                     telemetry,
                     deadWheels,
-                    fieldSense);
+                    wrist,
+                    shoulder);
         }
     }
 
@@ -102,7 +108,9 @@ public class LOKI_OPS extends LinearOpMode {
         deadWheels = new DeadWheels(hardwareMap); // Deadwheel encoders, declare b4 motors.
         drivetrain = new Drivetrain(hardwareMap);       // Drivetrain motors
         claw = new Claw(hardwareMap);
-        shortArm = new ShortArm(hardwareMap);
+        wrist = new Wrist(hardwareMap, gamepad1, telemetry);
+        shoulder = new Shoulder(hardwareMap);
+        //shortArm = new ShortArm(hardwareMap);
         longArm = new LongArm(hardwareMap);
         foreArm = new ForeArm(hardwareMap);
         //wrist = new Wrist(hardwareMap);
@@ -130,6 +138,10 @@ public class LOKI_OPS extends LinearOpMode {
             botHeading = 0;
             navx.resetYaw();
             //otos.resetTracking();
+        }
+        if (gamepad1.ps) {
+            wrist.initWrist();
+            shoulder.initShoulder(hardwareMap);
         }
     }
 
