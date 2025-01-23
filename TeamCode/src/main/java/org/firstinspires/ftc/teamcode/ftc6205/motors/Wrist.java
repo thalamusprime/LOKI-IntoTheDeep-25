@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
 
 @Config
@@ -17,7 +18,7 @@ public class Wrist {
     final Telemetry telemetry;
 
     public static double wrist_floor = 0.0;
-    public static double wrist_0 = 0.15;  //0.85;
+    public static double wrist_start = 0.15;  //0.85;
     public static double wrist_down_arm_in = 0.4;
     public static double wrist_down_arm_out = 0.45;
     double position;
@@ -33,26 +34,26 @@ public class Wrist {
     public void initWrist(){
         servo = hwMap.servo.get(name);
         servo.setDirection(Servo.Direction.FORWARD);
-        servo.setPosition(this.wrist_0);
+        servo.setPosition(AutoPresets.wrist_rest);
     }
 
     public void revolve(Gamepad gpad) {
         gpad1 = gpad;
         //PS: TRIANGLE
-        if ( !gpad1.left_bumper && gpad1.y ) {
-            position = this.wrist_floor;
+        if ( gpad1.left_bumper && gpad1.y ) {
+            position = AutoPresets.wrist_wall;
             servo.setPosition(position);
         } //PS: CIRCLE
-        if ( !gpad1.left_bumper && gpad1.b ) {
-            position = this.wrist_0;
+        if ( gpad1.left_bumper && gpad1.b ) {
+            position = AutoPresets.wrist_rest;
             servo.setPosition(position);
         } //PS: SQUARE
-        if ( !gpad1.left_bumper && gpad1.x ) {
-            position = this.wrist_down_arm_out;
+        if ( gpad1.left_bumper && gpad1.x ) {
+            position = AutoPresets.wrist_hook;
             servo.setPosition(position);
         } //PS: CROSS
-        if ( !gpad1.left_bumper && gpad1.a ) {
-            position = this.wrist_down_arm_in;
+        if ( gpad1.left_bumper && gpad1.a ) {
+            position = AutoPresets.wrist_floor;
             servo.setPosition(position);
         }
 

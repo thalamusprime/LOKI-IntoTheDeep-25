@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets;
 @Config
 public class Claw {
     Servo claw;
@@ -20,7 +20,7 @@ public class Claw {
 
         claw = hwMap.servo.get("claw");
         claw.setDirection(Servo.Direction.FORWARD);
-        claw.setPosition(0.0); // pinch
+        claw.setPosition(AutoPresets.claw_pinch); // pinch
     }
 
     public void grab(Gamepad gpad) {
@@ -30,9 +30,9 @@ public class Claw {
                 (gpad1.right_bumper  && gpad1.dpad_down)
             )
         {
-            claw.setPosition(AUTOConstants.claw_release);
+            claw.setPosition(AutoPresets.claw_release);
         } else {
-            claw.setPosition(AUTOConstants.claw_pinch);
+            claw.setPosition(AutoPresets.claw_pinch);
         }
     }
 

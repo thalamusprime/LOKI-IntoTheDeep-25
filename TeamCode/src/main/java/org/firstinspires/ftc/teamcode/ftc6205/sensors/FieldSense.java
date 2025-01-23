@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.ftc6205.sensors;
 
-import static org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants.touch_duration;
+import static org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets.touch_duration;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;

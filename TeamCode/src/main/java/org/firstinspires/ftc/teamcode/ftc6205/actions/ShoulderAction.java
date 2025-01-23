@@ -7,7 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.ftc6205.globals.AUTOConstants;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets;
 
 public class ShoulderAction {
     private Servo shoulder;
@@ -15,29 +15,41 @@ public class ShoulderAction {
     public ShoulderAction(HardwareMap hardwareMap) {
         shoulder = hardwareMap.get(Servo.class, "shoulder");
         shoulder.setDirection(Servo.Direction.REVERSE);
-
     }
 
-    //todo InitShoulder ---------------------------------------------------
-    public class InitShoulder implements Action {
+    //todo RestShoulder ---------------------------------------------------
+    public class RestShoulder implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             //packet.clearLines();
             packet.put("Shoulder: ", "Init");
-            shoulder.setPosition(AUTOConstants.shrug_0);
+            shoulder.setPosition(AutoPresets.shoulder_rest);
             return false;
         }
     }
-    public Action initShoulder() {
-        return new InitShoulder();
+    public Action restShoulder() {
+        return new RestShoulder();
     }
 
-    //todo FloorShoulder ---------------------------------------------------
+    //todo WallShoulder ---------------------------------------------------
+    public class WallShoulder implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            packet.put("Shoulder: ", "Stage");
+            shoulder.setPosition(AutoPresets.shoulder_wall);
+            return false;
+        }
+    }
+    public Action wallShoulder() {
+        return new WallShoulder();
+    }
+
+    //todo StageShoulder ---------------------------------------------------
     public class StageShoulder implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             packet.put("Shoulder: ", "Stage");
-            shoulder.setPosition(AUTOConstants.shrug_specimen_stage);
+            shoulder.setPosition(AutoPresets.shoulder_specimen_stage);
             return false;
         }
     }
@@ -51,7 +63,7 @@ public class ShoulderAction {
         public boolean run(@NonNull TelemetryPacket packet) {
             //packet.clearLines();
             packet.put("Shoulder: ", "Floor");
-            shoulder.setPosition(AUTOConstants.shrug_floor);
+            shoulder.setPosition(AutoPresets.shoulder_floor);
             return false;
         }
     }
@@ -59,19 +71,18 @@ public class ShoulderAction {
         return new FloorShoulder();
     }
 
-    //todo FloorShoulder ---------------------------------------------------
+    //todo HookShoulder ---------------------------------------------------
     public class HookShoulder implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             //packet.clearLines();
             packet.put("Shoulder: ", "Hook");
-            shoulder.setPosition(AUTOConstants.shrug_specimen_hook);
+            shoulder.setPosition(AutoPresets.shoulder_specimen_hook);
             return false;
         }
     }
     public Action hookShoulder() {
         return new HookShoulder();
     }
-
 
 }
