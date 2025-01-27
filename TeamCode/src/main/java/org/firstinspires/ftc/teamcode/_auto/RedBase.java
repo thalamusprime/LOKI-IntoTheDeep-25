@@ -34,6 +34,7 @@ public final class RedBase extends LinearOpMode {
 
             Actions.runBlocking(
                 drive.actionBuilder(startPose)
+                        .strafeToLinearHeading(new Vector2d(12,0 ), 0)
                     //todo: 1
                     .strafeToLinearHeading(new Vector2d(III+X_OFFSET, E ), WEST)
                     //todo: 2

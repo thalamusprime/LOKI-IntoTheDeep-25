@@ -4,21 +4,30 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
+
 @Config
 public class Claw {
     Servo claw;
+    String name;
     HardwareMap hwMap;
     Gamepad gpad1;
-
-    public Claw (HardwareMap ahwMap) {
-        initClaw(ahwMap);
+    Telemetry telem;
+    public Claw (String aname, HardwareMap ahwMap, Gamepad gpad, Telemetry atelem) {
+        name = aname;
+        hwMap = ahwMap;
+        gpad1 = gpad;
+        telem = atelem;
+        initClaw();
     }
 
-    public void initClaw(HardwareMap ahwMap)  {
-        hwMap = ahwMap;
+    public void initClaw()  {
+        //hwMap = ahwMap;
 
-        claw = hwMap.servo.get("claw");
+        claw = hwMap.servo.get(name);
         claw.setDirection(Servo.Direction.FORWARD);
         claw.setPosition(AutoPresets.claw_pinch); // pinch
     }

@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.TwistPIDConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
@@ -76,6 +77,7 @@ public class LOKI_OPS extends LinearOpMode {
             wrist.revolve(gamepad1);        // ROTATE SHORT-ARM
             foreArm.reach(gamepad1);        // REACH FORE-ARM
             longArm.raise(gamepad1);        // RAISE LONG-ARM
+
             deadWheels.runEncoders();       // READ DRIVE-ENCODERS
             this.resetCheck();              // RESET TrueNorth | Encoders
             this.runTrueNorth();            // PID Straight
@@ -107,13 +109,12 @@ public class LOKI_OPS extends LinearOpMode {
     private void initActuators() {
         deadWheels = new DeadWheels(hardwareMap); // Deadwheel encoders, declare b4 motors.
         drivetrain = new Drivetrain(hardwareMap);       // Drivetrain motors
-        claw = new Claw(hardwareMap);
-        wrist = new Wrist(hardwareMap, gamepad1, telemetry);
+        claw = new Claw(RobotConfiguration.claw_name, hardwareMap, gamepad1, telemetry);
+        wrist = new Wrist(RobotConfiguration.wrist_name, hardwareMap, gamepad1, telemetry);
         shoulder = new Shoulder(hardwareMap);
         //shortArm = new ShortArm(hardwareMap);
-        longArm = new LongArm(hardwareMap);
-        foreArm = new ForeArm(hardwareMap);
-        //wrist = new Wrist(hardwareMap);
+        //longArm = new LongArm(hardwareMap);
+        //foreArm = new ForeArm(hardwareMap);
     }
 
     private void initControllers() {

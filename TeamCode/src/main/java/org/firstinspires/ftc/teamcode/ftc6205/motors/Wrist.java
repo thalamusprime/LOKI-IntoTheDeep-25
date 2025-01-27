@@ -12,19 +12,16 @@ import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
 @Config
 public class Wrist {
     Servo servo;
-    final static String name = RobotConfiguration.wrist_name;
+    String name;
     final HardwareMap hwMap;
     Gamepad gpad1;
     final Telemetry telemetry;
 
-    public static double wrist_floor = 0.0;
-    public static double wrist_start = 0.15;  //0.85;
-    public static double wrist_down_arm_in = 0.4;
-    public static double wrist_down_arm_out = 0.45;
     double position;
     public static double wrist_inc = 0.001;
 
-    public Wrist(HardwareMap ahwMap, Gamepad gpad, Telemetry telem){
+    public Wrist(String aname, HardwareMap ahwMap, Gamepad gpad, Telemetry telem){
+        name = aname;
         hwMap = ahwMap;
         gpad1 = gpad;
         telemetry = telem;
@@ -57,14 +54,12 @@ public class Wrist {
             servo.setPosition(position);
         }
 
-        else if (!gpad1.left_bumper && gpad1.dpad_left) {
+        if (!gpad1.left_bumper && gpad1.dpad_left) {
             double new_pos = servo.getPosition() + wrist_inc;
-            //new_pos =+ shoulder_pos;
             servo.setPosition(new_pos);
         }
         else if (!gpad1.left_bumper && gpad1.dpad_right) {
             double new_pos = servo.getPosition() - wrist_inc;
-            //new_pos =- shoulder_pos;
             servo.setPosition(new_pos);
         }
 

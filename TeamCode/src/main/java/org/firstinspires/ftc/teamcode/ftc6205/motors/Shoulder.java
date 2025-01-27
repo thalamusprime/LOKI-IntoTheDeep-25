@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.ftc6205.globals.AutoPresets;
+import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
 
 @Config
 public class Shoulder {
@@ -27,7 +28,7 @@ public class Shoulder {
 
     public void initShoulder(HardwareMap ahwMap)  {
         hwMap = ahwMap;
-        shoulder = hwMap.servo.get("shoulder");
+        shoulder = hwMap.servo.get(RobotConfiguration.shoulder_name);
         shoulder.setDirection(Servo.Direction.REVERSE);
         shoulder.setPosition(AutoPresets.shoulder_rest); // reset
     }
