@@ -1,13 +1,6 @@
 package org.firstinspires.ftc.teamcode._auto;
 
 import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.*;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.E;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.F;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.III;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.IV;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.V;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.VI;
-//import static org.firstinspires.ftc.teamcode.ftc6205.globals.FieldCoordinates.WEST;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.ParallelAction;
