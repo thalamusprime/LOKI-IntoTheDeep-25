@@ -14,7 +14,7 @@ public class WristAction {
 
     public WristAction(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "wrist");
-        wrist.setPosition(AutoPresets.wrist_rest);
+        wrist.setPosition(AutoPresets.wrist_start);
     }
 
     //todo RestWrist ---------------------------------------------------
@@ -23,7 +23,7 @@ public class WristAction {
         public boolean run(@NonNull TelemetryPacket packet) {
             //packet.clearLines();
             packet.put("Wrist: ", "Rest");
-            wrist.setPosition(AutoPresets.wrist_rest);
+            wrist.setPosition(AutoPresets.wrist_start);
             return false;
         }
     }
@@ -54,8 +54,34 @@ public class WristAction {
         }
     }
     public Action wallWrist() {
-            return new WallWrist();
+        return new WallWrist();
+    }
+
+    //todo HookWrist ---------------------------------------------------
+    public class HookWrist implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            packet.put("Wrist: ", "Hook");
+            wrist.setPosition(AutoPresets.wrist_hook);
+            return false;
         }
+    }
+    public Action hookWrist() {
+        return new HookWrist();
+    }
+
+    //todo WallWrist ---------------------------------------------------
+    public class PinchWrist implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            packet.put("Wrist: ", "Pinch");
+            wrist.setPosition(AutoPresets.wrist_pinch);
+            return false;
+        }
+    }
+    public Action pinchWrist() {
+        return new PinchWrist();
+    }
 
 }
 

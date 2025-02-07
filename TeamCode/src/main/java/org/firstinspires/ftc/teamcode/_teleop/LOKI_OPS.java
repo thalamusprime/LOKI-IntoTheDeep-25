@@ -9,11 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.ftc6205.globals.TwistPIDConstants;
 import org.firstinspires.ftc.teamcode.ftc6205.logging.DSTelemetry;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.ShortArm;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Drivetrain;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Claw;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.LongArm;
-import org.firstinspires.ftc.teamcode.ftc6205.motors.ForeArm;
 import org.firstinspires.ftc.teamcode.ftc6205.controllers.TrueNorth;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Shoulder;
 import org.firstinspires.ftc.teamcode.ftc6205.motors.Wrist;
@@ -26,8 +23,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 
-import kotlin.jvm.internal.Ref;
-
 @TeleOp(name = "*: LOKI", group = "6205")
 public class LOKI_OPS extends LinearOpMode {
     // Subsystems
@@ -37,11 +32,12 @@ public class LOKI_OPS extends LinearOpMode {
     Drivetrain drivetrain;
     Claw claw;
     Wrist wrist;
+    //Wrist_6205 wrist;
     Shoulder shoulder;
     FieldSense fieldSense;
     //ShortArm shortArm;
-    LongArm longArm;
-    ForeArm foreArm;
+    //LongArm longArm;
+    //ForeArm foreArm;
     IMU navx;
     DistSensors distSensors;
     TrueNorth trueNorth;
@@ -75,8 +71,8 @@ public class LOKI_OPS extends LinearOpMode {
             claw.grab(gamepad1);            // GRAB CLAW
             shoulder.shrug(gamepad1);       // SHRUG SHOULDER
             wrist.revolve(gamepad1);        // ROTATE SHORT-ARM
-            foreArm.reach(gamepad1);        // REACH FORE-ARM
-            longArm.raise(gamepad1);        // RAISE LONG-ARM
+            //foreArm.reach(gamepad1);        // REACH FORE-ARM
+            //longArm.raise(gamepad1);        // RAISE LONG-ARM
 
             deadWheels.runEncoders();       // READ DRIVE-ENCODERS
             this.resetCheck();              // RESET TrueNorth | Encoders

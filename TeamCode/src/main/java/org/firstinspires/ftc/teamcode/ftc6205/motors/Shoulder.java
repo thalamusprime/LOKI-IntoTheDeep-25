@@ -16,12 +16,6 @@ public class Shoulder {
 
     double shoulder_pos;
 
-    public static double shrug_0 = 0.0;
-    public static double shrug_specimen_stage = 0.12; //0.1 straight up
-    public static double shrug_specimen_hook = 0.16; //0.1 straight up
-    public static double shrug_floor = 0.25;
-    public static double shoulder_inc = 0.001;
-
     public Shoulder(HardwareMap ahwMap) {
         initShoulder(ahwMap);
     }
@@ -30,14 +24,14 @@ public class Shoulder {
         hwMap = ahwMap;
         shoulder = hwMap.servo.get(RobotConfiguration.shoulder_name);
         shoulder.setDirection(Servo.Direction.REVERSE);
-        shoulder.setPosition(AutoPresets.shoulder_rest); // reset
+        shoulder.setPosition(AutoPresets.shoulder_start); // reset
     }
 
     public void shrug(Gamepad gpad) {
         gpad1 = gpad;
         if (gpad1.left_bumper && gpad1.ps) {
             initShoulder(hwMap);
-            shoulder.setPosition(AutoPresets.shoulder_rest);
+            shoulder.setPosition(AutoPresets.shoulder_start);
         }
         else if (gpad1.left_bumper && gpad1.dpad_up) {
             shoulder.setPosition(AutoPresets.shoulder_wall);

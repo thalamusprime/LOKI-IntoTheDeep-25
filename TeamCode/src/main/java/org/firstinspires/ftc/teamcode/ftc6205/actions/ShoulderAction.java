@@ -23,7 +23,7 @@ public class ShoulderAction {
         public boolean run(@NonNull TelemetryPacket packet) {
             //packet.clearLines();
             packet.put("Shoulder: ", "Init");
-            shoulder.setPosition(AutoPresets.shoulder_rest);
+            shoulder.setPosition(AutoPresets.shoulder_start);
             return false;
         }
     }

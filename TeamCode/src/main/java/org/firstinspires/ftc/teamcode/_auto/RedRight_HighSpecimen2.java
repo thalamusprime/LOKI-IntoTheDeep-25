@@ -67,25 +67,33 @@ public final class RedRight_HighSpecimen2 extends LinearOpMode {
 
         // Travel to submersbile
         Actions.runBlocking(
-                new ParallelAction(
-                        new SleepAction(2.0),
-                        trajSubmersible.build(),
-                        shoulderAction.stageShoulder()
+                new SequentialAction(
+                        new ParallelAction(
+                                new SleepAction(2.0),
+                                trajSubmersible.build(),
+                                shoulderAction.stageShoulder(),
+                                wristAction.hookWrist()
+                        )
                 )
         );
 
         // Hook
         Actions.runBlocking(
                 new ParallelAction(
-                    new SleepAction(1.0),
+                    new SleepAction(3.0),
                         new SequentialAction(
-                            shoulderAction.hookShoulder()
-                            //clawAction.openClaw()
+                                new ParallelAction(
+                                        new SleepAction(1.0),
+                                        shoulderAction.hookShoulder()
+                                ),
+                                clawAction.openClaw(),
+                                wristAction.restWrist(),
+                                shoulderAction.restShoulder()
                     )
                 )
         );
 
-        //todo 2/3: To Red Samples ------------------------------------------
+        //todo 2/3: Staging Red Samples ------------------------------------------
         Actions.runBlocking(
                 new ParallelAction(
                         new SleepAction(3.0),
@@ -117,12 +125,12 @@ public final class RedRight_HighSpecimen2 extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                     new ParallelAction(
+                        wristAction.wallWrist(),
                         shoulderAction.wallShoulder(),
                         trajStageRedWall.build()
                     ),
                         new ParallelAction(
-                        clawAction.openClaw(),
-                        wristAction.wallWrist()
+                        clawAction.openClaw()
                     )
                 )
         );
@@ -130,10 +138,10 @@ public final class RedRight_HighSpecimen2 extends LinearOpMode {
         Actions.runBlocking(
                 new SleepAction(4.0)
         );
-                        // completed at 15 sec
-                        // .strafeToLinearHeading(new Vector2d(VI, D), WEST) //9
-                        // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, D), WEST) //10
-                        // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, F+Y_OFFSET), WEST) //11
+        // completed at 15 sec
+        // .strafeToLinearHeading(new Vector2d(VI, D), WEST) //9
+        // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, D), WEST) //10
+        // .strafeToLinearHeading(new Vector2d(VI+X_OFFSET/2, F+Y_OFFSET), WEST) //11
     }
 
     private void initSubsystems() {
