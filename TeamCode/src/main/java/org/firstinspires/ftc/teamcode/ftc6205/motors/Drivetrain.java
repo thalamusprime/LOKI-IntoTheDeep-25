@@ -22,7 +22,7 @@ public class Drivetrain {
     public void initDriveMotors(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        // Control HUb
+        // Control Hub
         frontLeftDriveMotor = hwMap.dcMotor.get("frontleft");
         backLeftDriveMotor = hwMap.dcMotor.get("backleft");
         frontRightDriveMotor = hwMap.dcMotor.get("frontright");

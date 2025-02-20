@@ -26,13 +26,11 @@ public class Wrist {
         telemetry = telem;
         this.initWrist();
     }
-
     public void initWrist(){
         servo = hwMap.servo.get(name);
         servo.setDirection(Servo.Direction.FORWARD);
         servo.setPosition(AutoPresets.wrist_start);
     }
-
     public void revolve(Gamepad gpad) {
         gpad1 = gpad;
         //PS: TRIANGLE
@@ -63,7 +61,6 @@ public class Wrist {
         }
 
     }
-
     public void setPosition(double pos) {
         servo.setPosition(pos);
     }

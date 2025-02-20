@@ -19,9 +19,9 @@ import org.firstinspires.ftc.teamcode.ftc6205.actions.WristAction;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 @Config
-@Autonomous(name = "*F: RED_RIGHT_HIGH_SPECIMEN2", group = "AUTO")
+@Autonomous(name = "*F4: RED_RIGHT", group = "AUTO")
 //@Disabled
-public final class RedRight_HighSpecimen2 extends LinearOpMode {
+public final class RedRight extends LinearOpMode {
     public static double START_ANGLE = Math.toRadians(90);
     public static double START_X = IV;
     public static double START_Y_OFFSET = 0;
