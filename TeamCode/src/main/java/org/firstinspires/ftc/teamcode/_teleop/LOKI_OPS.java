@@ -104,7 +104,7 @@ public class LOKI_OPS extends LinearOpMode {
 
     private void initActuators() {
         deadWheels = new DeadWheels(hardwareMap); // Deadwheel encoders, declare b4 motors.
-        drivetrain = new Drivetrain(hardwareMap);       // Drivetrain motors
+        drivetrain = new Drivetrain(hardwareMap); // Drivetrain motors
         claw = new Claw(RobotConfiguration.claw_name, hardwareMap, gamepad1, telemetry);
         wrist = new Wrist(RobotConfiguration.wrist_name, hardwareMap, gamepad1, telemetry);
         shoulder = new Shoulder(hardwareMap);
@@ -120,7 +120,7 @@ public class LOKI_OPS extends LinearOpMode {
         trueNorth = new TrueNorth();
     }
 
-    private void resetCheck() {
+private void resetCheck() {
         if (gamepad1.share) {
             //claw.initClaw();
             //wrist.initWrist();

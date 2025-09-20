@@ -64,8 +64,6 @@ public final class RedRight extends LinearOpMode {
 
         //PLAY
         //todo 1: Submersible ------------------------------------------
-
-        // Travel to submersbile
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
@@ -98,7 +96,6 @@ public final class RedRight extends LinearOpMode {
                 new ParallelAction(
                         new SleepAction(3.0),
                         trajStageRedSamples.build(),
-                        //clawAction.closeClaw(),
                         shoulderAction.restShoulder()
                 )
         );
@@ -108,8 +105,6 @@ public final class RedRight extends LinearOpMode {
                 new ParallelAction(
                         new SleepAction(3.0),
                         trajPush1stRedSample.build()
-                        //clawAction.closeClaw(),
-                        //shoulderAction.initShoulder()
                 )
         );
 
